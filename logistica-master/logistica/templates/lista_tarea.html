@@ -1,0 +1,336 @@
+ {% extends 'rh_base.html' %}
+    {% block js %}
+
+
+    {% block css %}
+<style type="text/css">
+    #opcionesAgregar, #panelBuscar, #panelAgregarActividad {
+       display: none;
+    }
+
+    .opcionBuscar{
+        cursor: pointer;
+    }
+
+    .datoLista{
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+    {% endblock %}
+
+    {% block contenido %}
+    <h1>Actividad</h1>
+     
+    <div id="opcionesLista" class="btn-group">
+        <label  id="agregar" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i> Agregar Actividad
+        </label>
+                                     
+        
+        
+    </div>
+    
+    <div id="opcionesAgregar" class="btn-group">
+        
+        <label  id="cancelar"  class="btn btn-success btn-sm">
+            <i class="fa fa-arrow-left"></i> Atras
+        </label>
+    </div>
+
+   
+
+
+    <div id="mensaje">
+
+
+    </div>
+
+
+
+    <div id="panelAgregarActividad">
+        <form  id="agregarForm" action="{%  url 'agregar_actividad' %}" role="form" method='POST'>
+          {% csrf_token %}
+          <legend id="tituloForm" value="" name="id" >Crear Actividad</legend>
+
+          <div class="row">  
+          <div class="form-group col-lg-6">
+                <label for="">Codigo</label>
+                <input type="text" name="codigo" class="form-control" id="codigo"  placeholder="Codigo" required>
+
+            </div>       
+            <div class="form-group col-lg-6">
+                <label for="">Nombre Actividad</label>
+                <input type="text" name="nombre" class="form-control" id="nombre_actividad"  placeholder="Nombre Actividad" required>
+
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="">Encargado</label>
+                <input type="text" name="encargado" class="form-control" id="encargado" placeholder="Encargado" required>
+
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="">Costo</label>
+                <input type="text" name="costo" class="form-control" id="costo"  placeholder="Costo" required>
+            
+            </div>
+            <div class="row">  
+                
+            </div>
+          
+        <div class="row">           
+            <div class="form-group col-lg-6">
+               <label for="">Fecha de Inicio</label>
+               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" value=""  required="required" title="">
+           </div>
+
+            <div class="form-group col-lg-6">
+             <label for="">Fecha Final</label>
+             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_estimada" id="fecha2" class="form-control"  required="required" title="">
+            </div>    
+
+             <div class="form-group col-lg-6">
+             <label for="">Fecha Final Real</label>
+             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha2" class="form-control"  required="required" title="">
+            </div> 
+            <div class="form-group col-lg-6" id="modificar" >
+                <label for="">Tipo Actividad</label>
+            <select name="tipo_actividad"  class="form-control">
+                    
+                    <option  value="EE">Administrativa</option>
+                    <option  value="C">Atencion</option>
+                    <option  value="T">Otro</option>
+                   
+                </select>
+            </div>    
+            
+        </div>
+      
+
+     </div>
+     <div class="row">
+            <div class="col-lg-2">
+            <button class" btn btn-success btn-sm">Guardar Actividad</button>
+                <!--<label  id="enviar" class="btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Guardar
+                </label>-->
+                
+            </div>
+
+        </div>
+ </form>
+</div>
+
+
+
+<table id="listaActividad" class="table table-striped table-hover" value="1">
+
+    <thead>
+        <tr>
+           
+                <th>Codigo</th>
+                <th>Nombre Actividad</th>  
+                <th>Encargado</th> 
+                <th>Costo</th> 
+                <th>Fecha Inicio</th>
+                <th>Fecha Final</th>
+                <th>Fecha Final Real</th>
+                <th>Tipo</th>
+                <th></th>
+                
+        </tr>
+        <tr>
+                <th></th>
+                <th class="buscarNombre" id="1"><input type="text" name="Nombre Actividad" class="form-control" id="nombre_actividad" value="" placeholder="Nombre Actividad" autocomplete="off" required></th>    
+                <th></th>
+                <th></th>
+                <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha1" id="fecha1" value="" class="form-control"  required="required" title=""></th>
+                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha2" id="fecha2" value="" class="form-control"  required="required" title=""></th>
+                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha3" id="fecha3" value="" class="form-control"  required="required" title=""></th>
+                <th></th>
+                
+        </tr>
+        
+    </thead>
+     <tbody class="tabla" id="tabla" value="{{cont}}">
+          
+
+        
+         {% for actividad in actividades %}
+           
+        <tr class="datoLista" style"cursor: pointer;" >
+        
+            <td id="">{{actividad.codigo}}</td>
+            <td id="">{{actividad.nombre}}</td>
+            <td id="">{{actividad.encargado}}</td>
+            <td id="">{{actividad.costo}}</td>
+            <td id="">{{actividad.encargado}}</td>
+            <td id="">{{actividad.fecha_inicio}}</td>
+            <td id="">{{actividad.fecha_fin_estimada}}</td>
+            <td id="">{{actividad.fecha_fin_real}}</td>
+            <td id="">{{actividad.tipo_actividad}}</td>
+            <td><label  id="enviar" class="btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Tareas
+                </label></td>
+        </tr> 
+        {% endfor%}
+       
+       
+          
+        
+    </tbody>
+</table>
+
+<center id="paginacionDiv">
+    <ul class="pagination" value="{{pag}}">
+      <li class="paginacionLi" value="-1"><a style="cursor: pointer;">&laquo;</a></li>
+       
+      <li class="paginacionLi" value="-2"><a style="cursor: pointer;">&raquo;</a></li>
+  </ul>
+</center>
+
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+      
+        $("#listaActividad").css("display","table");
+    });
+    
+
+    var dato1="";
+    var dato2="";
+    var dato3="";
+
+    function agregarForm(){
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarActividad").css("display","block");
+        $("#panelBuscar").css("display","none");
+        $("#listaActividad").val(1);
+        $("#paginacionDiv").css("display","none");
+
+
+    }
+
+    function agregarLista(){
+        $("#lista").css("display","table");
+            $("#opcionesLista").css("display","inline-block");
+            $("#opcionesAgregar").css("display","none");
+            $("#listaActividad").css("display","table");
+            $('#mensaje').css("display","none");
+            $("#panelAgregar").css("display","none");
+            $("#panelBuscar").css("display","none");
+            $("#listaActividad").val(1);
+            $("#paginacionDiv").css("display","block");
+    }
+
+    $("#agregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarActividad").css("display","block");
+
+        //agregarForm();
+
+    });
+    $("#opcionesAgregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","inline-block");
+        $("#opcionesAgregar").css("display","none");
+        $("#panelAgregarActividad").css("display","none");
+
+        //agregarForm();
+
+    });
+
+    $("#cancelar").click(function() {
+     
+        agregarLista();
+
+    });
+
+
+
+        $(".buscarNombre").keyup(function  () {
+            dato1=$(this).children().val();
+            $(".pagination").val(1);
+           
+        });
+
+        $(".buscar").change(function  () {
+            if($(this).attr("id")==2){
+                dato2=$(this).children().val();
+                console.log("dato2");
+            }else
+                if($(this).attr("id")==3)
+                    dato3=$(this).children().val(); 
+            $(".pagination").val(1);
+            
+        });
+
+
+
+         $(".datoLista").click(function () {
+               if($(this).hasClass("activo")){
+                    agregarForm();
+                    $("#modificar").css("display","inline-block");
+                    $("#tituloForm").text("Modificar Oferta");
+                    var info= new Array();
+
+                    $(this).find('td').each(function (index) {
+                    info[index]=$(this).attr("id");
+                });
+
+                console.log($(this).attr("id"));
+                $("#tituloForm").val($(this).attr("id")); 
+                $("#codigo").val(info[0]);
+                $("#nombre_Actividad").val(info[1]);
+                $("#encargado").val(info[2]);
+                $("#costo").val(info[3]);
+                $("#fecha1").val(info[4]);
+                $("#fecha2").val(info[5]);
+                $("#fecha3").val(info[6]);
+                $("#tipo_actividad").val(info[7]);
+
+                }
+           });
+
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+
+    {% endblock %}
+

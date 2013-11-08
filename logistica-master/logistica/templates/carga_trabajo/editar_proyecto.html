@@ -1,0 +1,19 @@
+{% if proyecto %}
+	<h1>Proyecto Codigo {{ proyecto.codigo }}</h1>
+	<form action="#" method="POST">
+		{% csrf_token %}
+		<label>Nombre</label>
+		<input type="text" value="{{ proyecto.nombre_proyecto }}"></input type="text">
+		<br>
+		<label>Encargado</label>
+		<input type="text" value="{{ proyecto.encargado }}"></input type="text">
+		<br>
+		<label>Costo</label>
+		<input type="text" value="{{ proyecto.costo }}"></input type="text">
+		<br>
+		<label>Objetivo</label>
+		<input type="text" value="{{ proyecto.objetivo }}"></input type="text">
+	</form>
+{% else %}
+	<p>No se a definido ningun proyecto</p>
+{% endif %}
