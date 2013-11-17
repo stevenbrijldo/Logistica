@@ -115,7 +115,7 @@
      </div>
      <div class="row">
             <div class="col-lg-2">
-            <button id="enviar"class" btn btn-success btn-sm">Guardar Proyecto</button>
+            <button class" btn btn-success btn-sm">Guardar Proyecto</button>
                 <!--<label  id="enviar" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Guardar
                 </label>-->
@@ -177,9 +177,8 @@
             <td id="">{{proyecto.fecha_fin_real}}</td>
             <td id="">{{proyecto.objetivo}}</td>
             <td id="">{{proyecto.estado}}</td>
-            <td><label  id="enviarActividad" class="btn btn-success btn-sm">
+            <td><label  id="enviar" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Actividades
-                
                 </label></td>
         </tr> 
         {% endfor%}
@@ -314,11 +313,11 @@
 
 
 
-   /** $("#enviar").click(function(event){
+    /**$("#enviar").click(function(event){
         
         event.preventDefault();
         var codigo= $("#codigo").val();
-        var nombre_proyecto= $("#nombre").val();
+        var nombre_proyecto= $("#nombre_proyecto").val();
         var encargado= $("#encargado").val();
         var costo= $("#costo").val();
         var objetivo=$("#objetivo").val();
@@ -326,9 +325,17 @@
         var fecha2=$("#fecha2").val();
         var fecha3=$("#fecha3").val();
         var estado=$("#estado").val();
-        var url="{% url 'agregar_proyecto' %}";
+        var url="/carga_trabajo/agregarProyecto/";
         
-     
+        var codigo_actividad= $("#codigo_actividad").val();
+        var nombre_actividad= $("#nombre_actividad").val();
+        var encargado_actividad= $("#encargado_actividad").val();
+        var costo_actividad= $("#costo_actividad").val();
+        var fecha4=$("#fecha4").val();
+        var fecha5=$("#fecha5").val();
+        var fecha6=$("#fecha6").val();
+        var tipo_actividad=$("#tipo_actividad").val();
+
 
         if($("#tituloForm").val()!= "")
             url="/carga_trabajo/modificarProyecto/?id="+$("#tituloForm").val();
@@ -363,14 +370,46 @@
 
             }
         });
+        }else {
+               if(codigo_actividad!="" &&nombre_actividad!="" &&encargado_actividad!="" && costo_actividad!="" &&fecha4!="" &&fecha5!="" && fecha6!=""&& tipo_actividad!=""){
+           
+            $.ajax({
+               type: 'POST',
+               data:  $("#agregarForm").serialize(),
+               url: url,
+
+               success: function(data){
+                var html="";
+                if(data.tipo==1){
+                    html+="<div class=\"alert alert-success\"><strong>Mensaje</strong>"+data.mensaje+"</div>";
+                    $("#fecha4").css('border-color', 'transparent');
+                    $("#fecha5").css('border-color', 'transparent');
+                    $("#fecha6").css('border-color', 'transparent');
+                    $("#agregarForm")[0].reset();
+                }else{
+
+                    html+="<div class=\"alert alert-danger\"><strong>Error!</strong>"+ data.mensaje+"</div>";
+                    $("#fecha4").css('border-color', '#cc0000');
+                    $("#fecha5").css('border-color', '#cc0000');
+                    $("#fecha6").css('border-color', '#cc0000');
+                }
+                $("#mensaje").html(html);
+
+                $("#mensaje").css("display","inline-block");
+                
+
+            }
+        });
         }
+        }
+
+
     });*/
         $("#enviarActividad").click(function (){ 
            
             location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
          $(".datoLista").click(function () {
-            alert("kkkkkkkkkkkkkkkkkkkkkkk");
                if($(this).hasClass("activo")){
                     agregarForm();
                     $("#modificar").css("display","inline-block");
