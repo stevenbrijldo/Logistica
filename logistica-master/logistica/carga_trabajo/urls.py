@@ -10,7 +10,6 @@ urlpatterns = patterns('',
 
       url(r'^proyecto/', 'carga_trabajo.views.proyecto'),
       url(r'^actividad/','carga_trabajo.views.actividad'),
-       url(r'^tarea/','carga_trabajo.views.tarea'),
 
     #url(r'^(?P<codigo_proveedor>\d+)/$', views.detalle, name="detalleProveedor"),
 )
