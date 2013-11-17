@@ -167,7 +167,7 @@
            
         <tr class="datoLista" style"cursor: pointer;" >
         
-            <td id="">{{proyecto.codigo}}</td>
+            <td id="{{proyecto.codigo}}">{{proyecto.codigo}}</td>
             <td id="">{{proyecto.nombre}}</td>
             <td id="">{{proyecto.encargado}}</td>
             <td id="">{{proyecto.costo}}</td>
@@ -254,6 +254,7 @@
         $("#opcionesLista").css("display","none");
         $("#opcionesAgregar").css("display","inline-block");
         $("#panelAgregarProyecto").css("display","block");
+       
 
         //agregarForm();
 
@@ -364,7 +365,10 @@
         });
         }
     });*/
-
+        $("#enviarActividad").click(function (){ 
+           
+            location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
+        });
          $(".datoLista").click(function () {
             alert("kkkkkkkkkkkkkkkkkkkkkkk");
                if($(this).hasClass("activo")){

@@ -26,6 +26,7 @@ class Actividad(models.Model):
 	fecha_fin_estimada = models.DateField(null=False)
 	fecha_fin_real = models.DateField(null=False)
 	tipo_actividad = models.CharField(max_length=100)
+	estado = models.CharField(max_length=100)
 	def __unicode__(self):
 		return self.nombre
 
