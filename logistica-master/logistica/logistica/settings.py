@@ -132,7 +132,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'carga_trabajo',
     'inicio',
-    'atencion',
+    'solicitud',
     
 )
 
