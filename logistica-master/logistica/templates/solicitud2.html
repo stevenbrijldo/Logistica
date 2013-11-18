@@ -1,0 +1,341 @@
+    {% extends 'rh_base.html' %}
+    {% block js %}
+
+
+    {% block css %}
+<style type="text/css">
+    #opcionesAgregar, #panelBuscar, #panelAgregarProyecto {
+       display: none;
+    }
+
+    .opcionBuscar{
+        cursor: pointer;
+    }
+
+    .datoLista{
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+    {% endblock %}
+
+    {% block contenido %}
+    <h1>Proyectos</h1>
+     
+    <div id="opcionesLista" class="btn-group">
+        <label  id="agregar" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i> Agregar Proyecto
+        </label>
+                                     
+        
+        
+    </div>
+    
+    <div id="opcionesAgregar" class="btn-group">
+        
+        <label  id="cancelar"  class="btn btn-success btn-sm">
+            <i class="fa fa-arrow-left"></i> Atras
+        </label>
+    </div>
+
+   
+
+
+    <div id="mensaje">
+
+
+    </div>
+
+
+
+    <div id="panelAgregarProyecto">
+        
+</div>
+
+
+
+<table id="listaProyecto" class="table table-striped table-hover" value="1">
+
+    <thead>
+        <tr>
+           
+                <th>Codigo</th>
+                <th>Nombre Proyecto</th>  
+                <th>Encargado</th> 
+                <th>Costo</th> 
+                <th>Objetivo</th>   
+                <th>Fecha Inicio</th>
+                <th>Fecha Final</th>
+                <th>Fecha Final Real</th>
+                <th>Estado</th>
+                <th></th>
+                
+        </tr>
+        <tr>
+                <th></th>
+                <th class="buscarNombre" id="1"><input type="text" name="Nombre Proyecto" class="form-control" id="nombre_proyecto" value="" placeholder="Nombre Proyecto" autocomplete="off" required></th>    
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha1" id="fecha1" value="" class="form-control"  required="required" title=""></th>
+                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha2" id="fecha2" value="" class="form-control"  required="required" title=""></th>
+                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha3" id="fecha3" value="" class="form-control"  required="required" title=""></th>
+                <th></th>
+                
+        </tr>
+        
+    </thead>
+     <tbody class="tabla" id="tabla" value="{{cont}}">
+          
+
+        
+         {% for proyecto in proyectos %}
+           
+        <tr class="datoLista" style"cursor: pointer;" >
+        
+            <td id="">{{proyecto.codigo}}</td>
+            <td id="">{{proyecto.nombre}}</td>
+            <td id="">{{proyecto.encargado}}</td>
+            <td id="">{{proyecto.costo}}</td>
+            <td id="">{{proyecto.encargado}}</td>
+            <td id="">{{proyecto.fecha_inicio}}</td>
+            <td id="">{{proyecto.fecha_fin_estimada}}</td>
+            <td id="">{{proyecto.fecha_fin_real}}</td>
+            <td id="">{{proyecto.objetivo}}</td>
+            <td id="">{{proyecto.estado}}</td>
+            <td><label  id="enviarActividad" class="btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Actividades
+                
+                </label></td>
+        </tr> 
+        {% endfor%}
+       
+       
+          
+        
+    </tbody>
+</table>
+
+<center id="paginacionDiv">
+    <ul class="pagination" value="{{pag}}">
+      <li class="paginacionLi" value="-1"><a style="cursor: pointer;">&laquo;</a></li>
+       
+      <li class="paginacionLi" value="-2"><a style="cursor: pointer;">&raquo;</a></li>
+  </ul>
+</center>
+
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+      
+        $("#listaProyecto").css("display","table");
+    });
+    
+
+    var dato1="";
+    var dato2="";
+    var dato3="";
+
+    function agregarForm(){
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarProyecto").css("display","block");
+        $("#panelBuscar").css("display","none");
+        $("#listaProyecto").val(1);
+        $("#paginacionDiv").css("display","none");
+
+
+    }
+
+    function agregarLista(){
+        $("#lista").css("display","table");
+            $("#opcionesLista").css("display","inline-block");
+            $("#opcionesAgregar").css("display","none");
+            $("#listaProyecto").css("display","table");
+            $('#mensaje').css("display","none");
+            $("#panelAgregar").css("display","none");
+            $("#panelBuscar").css("display","none");
+            $("#listaProyecto").val(1);
+            $("#paginacionDiv").css("display","block");
+    }
+
+    $("#agregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarProyecto").css("display","block");
+
+        //agregarForm();
+
+    });
+    $("#opcionesAgregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","inline-block");
+        $("#opcionesAgregar").css("display","none");
+        $("#panelAgregarProyecto").css("display","none");
+
+        //agregarForm();
+
+    });
+
+    $("#cancelar").click(function() {
+     
+        agregarLista();
+
+    });
+
+
+
+        $(".buscarNombre").keyup(function  () {
+            dato1=$(this).children().val();
+            $(".pagination").val(1);
+           
+        });
+
+        $(".buscar").change(function  () {
+            if($(this).attr("id")==2){
+                dato2=$(this).children().val();
+                console.log("dato2");
+            }else
+                if($(this).attr("id")==3)
+                    dato3=$(this).children().val(); 
+            $(".pagination").val(1);
+            
+        });
+
+
+        
+
+     
+
+    
+
+
+
+        
+
+
+
+
+
+
+
+
+   /** $("#enviar").click(function(event){
+        
+        event.preventDefault();
+        var codigo= $("#codigo").val();
+        var nombre_proyecto= $("#nombre").val();
+        var encargado= $("#encargado").val();
+        var costo= $("#costo").val();
+        var objetivo=$("#objetivo").val();
+        var fecha1=$("#fecha1").val();
+        var fecha2=$("#fecha2").val();
+        var fecha3=$("#fecha3").val();
+        var estado=$("#estado").val();
+        var url="{% url 'agregar_proyecto' %}";
+        
+     
+
+        if($("#tituloForm").val()!= "")
+            url="/carga_trabajo/modificarProyecto/?id="+$("#tituloForm").val();
+
+        
+        if(codigo!="" &&nombre_proyecto!="" &&encargado!="" && costo!="" &&objetivo!="" && fecha1!="" &&fecha2!="" && fecha3!=""&& estado!=""){
+           
+            $.ajax({
+               type: 'POST',
+               data:  $("#agregarForm").serialize(),
+               url: url,
+
+               success: function(data){
+                var html="";
+                if(data.tipo==1){
+                    html+="<div class=\"alert alert-success\"><strong>Mensaje</strong>"+data.mensaje+"</div>";
+                    $("#fecha1").css('border-color', 'transparent');
+                    $("#fecha2").css('border-color', 'transparent');
+                    $("#fecha3").css('border-color', 'transparent');
+                    $("#agregarForm")[0].reset();
+                }else{
+
+                    html+="<div class=\"alert alert-danger\"><strong>Error!</strong>"+ data.mensaje+"</div>";
+                    $("#fecha1").css('border-color', '#cc0000');
+                    $("#fecha2").css('border-color', '#cc0000');
+                    $("#fecha3").css('border-color', '#cc0000');
+                }
+                $("#mensaje").html(html);
+
+                $("#mensaje").css("display","inline-block");
+                
+
+            }
+        });
+        }
+    });*/
+
+         $(".datoLista").click(function () {
+            alert("kkkkkkkkkkkkkkkkkkkkkkk");
+               if($(this).hasClass("activo")){
+                    agregarForm();
+                    $("#modificar").css("display","inline-block");
+                    $("#tituloForm").text("Modificar Oferta");
+                    var info= new Array();
+
+                    $(this).find('td').each(function (index) {
+                    info[index]=$(this).attr("id");
+                });
+
+                console.log($(this).attr("id"));
+                $("#tituloForm").val($(this).attr("id")); 
+                $("#codigo").val(info[0]);
+                $("#nombre_proyecto").val(info[1]);
+                $("#encargado").val(info[2]);
+                $("#costo").val(info[3]);
+                $("#objetivo").val(info[4]);
+                $("#fecha1").val(info[5]);
+                $("#fecha2").val(info[6]);
+                $("#fecha3").val(info[7]);
+                $("#estado").val(info[8]);
+
+                }
+           });
+
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+
+    {% endblock %}
+

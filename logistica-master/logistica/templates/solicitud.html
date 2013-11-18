@@ -1,0 +1,288 @@
+ {% extends 'rh_base.html' %}
+    {% block js %}
+
+
+    {% block css %}
+<style type="text/css">
+    #opcionesAgregar, #panelBuscar, #panelAgregarSolicitud {
+       display: none;
+    }
+
+    .opcionBuscar{
+        cursor: pointer;
+    }
+
+    .datoLista{
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+    {% endblock %}
+
+    {% block contenido %}
+    <h1>Solicitud</h1>
+     
+    <div id="opcionesLista" class="btn-group">
+        <label  id="agregar" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i> Agregar Solicitud
+        </label> 
+    </div>
+    
+    <div id="opcionesAgregar" class="btn-group">
+        
+        <label  id="cancelar"  class="btn btn-success btn-sm">
+            <i class="fa fa-arrow-left"></i> Atras
+        </label>
+    </div>
+
+    <div id="mensaje">
+    </div>
+
+
+
+    <div id="panelAgregarSolicitud">
+        <form  id="agregarForm" action="{%  url 'agregar_solicitud' %}" role="form" method='POST'>
+          {% csrf_token %}
+          <legend id="tituloForm" value="" name="id" >Crear Solicitud</legend>
+
+          <div class="row">  
+          <div class="form-group col-lg-6">
+                <label for="">Codigo</label>
+                <input type="text" name="codigo" class="form-control" id="codigo"  placeholder="Codigo" required>
+
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="">cliente</label>
+                <input type="text" name="cliente" class="form-control" id="cliente"  placeholder="cliente" required>
+
+            </div>       
+            <div class="form-group col-lg-6">
+                <label for="">Descripcion</label>
+                <input type="text" name="descripcion" class="form-control" id="descripcion"  placeholder="Descripción" required>
+
+            </div>
+            <div class="form-group col-lg-6">
+             <label for="">Fecha </label>
+             <input type="date" data-format="yyyy-MM-dd" name="fecha" id="fecha" class="form-control"  required="required" title="">
+            </div>    
+
+            <div class="form-group col-lg-6" id="modificar" >
+                <label for="">Estado</label>
+            <select name="estado"  class="form-control">
+                    
+                    <option  value=>En Espera</option>
+                    <option  value=>Resuelto</option>
+                    <option  value=>No Resuelto</option>
+                   
+                </select>
+            </div>    
+            
+        </div>
+      
+
+     </div>
+     <div class="row">
+            <div class="col-lg-2">
+            <button class" btn btn-success btn-sm">Guardar Solicitud</button>
+                <!--<label  id="enviar" class="btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Guardar
+                </label>-->
+                
+            </div>
+
+        </div>
+ </form>
+</div>
+
+
+
+<table id="listaSolicitud" class="table table-striped table-hover" value="1">
+
+    <thead>
+        <tr>
+           
+                <th>Codigo</th>
+                <th>Descripcion</th>  
+                <th>Fecha</th>
+                <th>Estado</th>
+                  
+        </tr>
+        <tr>
+                <th></th>
+                <th class="buscarSolicitud" id="1"><input type="text" name="Descripcion" class="form-control" id="descripcion" value="" placeholder="Descripcion" autocomplete="off" required></th>    
+                <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha" id="fecha" value="" class="form-control"  required="required" title=""></th>
+                <th></th>
+        </tr>
+        
+    </thead>
+     <tbody class="tabla" id="tabla" value="{{cont}}">
+          
+
+        
+         {% for solicitud in solicitud %}
+           
+        <tr class="datoLista" style"cursor: pointer;" >
+        
+            <td id="">{{solicitud.codigo}}</td>
+            <td id="">{{solicitud.descripcion}}</td>
+            <td id="">{{solicitud.fecha}}</td>
+            <td id="">{{solicitud.estado}}</td>
+            
+        </tr> 
+        {% endfor%}
+       
+       
+          
+        
+    </tbody>
+</table>
+
+<center id="paginacionDiv">
+    <ul class="pagination" value="{{pag}}">
+      <li class="paginacionLi" value="-1"><a style="cursor: pointer;">&laquo;</a></li>
+       
+      <li class="paginacionLi" value="-2"><a style="cursor: pointer;">&raquo;</a></li>
+  </ul>
+</center>
+
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+      
+        $("#listaSolicitud").css("display","table");
+    });
+    
+
+    var dato1="";
+    var dato2="";
+    var dato3="";
+
+    function agregarForm(){
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarSolicitud").css("display","block");
+        $("#panelBuscar").css("display","none");
+        $("#listaSolicitud").val(1);
+        $("#paginacionDiv").css("display","none");
+
+
+    }
+
+    function agregarLista(){
+        $("#lista").css("display","table");
+            $("#opcionesLista").css("display","inline-block");
+            $("#opcionesAgregar").css("display","none");
+            $("#listaSolicitud").css("display","table");
+            $('#mensaje').css("display","none");
+            $("#panelAgregar").css("display","none");
+            $("#panelBuscar").css("display","none");
+            $("#listaSolicitud").val(1);
+            $("#paginacionDiv").css("display","block");
+    }
+
+    $("#agregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarSolicitud").css("display","block");
+
+        //agregarForm();
+
+    });
+    $("#opcionesAgregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","inline-block");
+        $("#opcionesAgregar").css("display","none");
+        $("#panelAgregarSolicitud").css("display","none");
+
+        //agregarForm();
+
+    });
+
+    $("#cancelar").click(function() {
+     
+        agregarLista();
+
+    });
+
+
+
+        $(".buscarNombre").keyup(function  () {
+            dato1=$(this).children().val();
+            $(".pagination").val(1);
+           
+        });
+
+        $(".buscar").change(function  () {
+            if($(this).attr("id")==2){
+                dato2=$(this).children().val();
+                console.log("dato2");
+            }else
+                if($(this).attr("id")==3)
+                    dato3=$(this).children().val(); 
+            $(".pagination").val(1);
+            
+        });
+
+
+
+         $(".datoLista").click(function () {
+               if($(this).hasClass("activo")){
+                    agregarForm();
+                    $("#modificar").css("display","inline-block");
+                    $("#tituloForm").text("Modificar Oferta");
+                    var info= new Array();
+
+                    $(this).find('td').each(function (index) {
+                    info[index]=$(this).attr("id");
+                });
+
+                console.log($(this).attr("id"));
+                $("#tituloForm").val($(this).attr("id")); 
+                $("#codigo").val(info[0]);
+                $("#descripcion").val(info[1]);
+                $("#fecha").val(info[2]);
+                $("#estado").val(info[3]);
+                
+                }
+           });
+
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+
+    {% endblock %}
+
