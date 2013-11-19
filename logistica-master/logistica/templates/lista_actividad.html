@@ -152,12 +152,13 @@
         </tr>
         <tr>
                 <th></th>
+                <th></th>
                 <th class="buscarNombre" id="1"><input type="text" name="Nombre Actividad" class="form-control" id="nombre_actividad" value="" placeholder="Nombre Actividad" autocomplete="off" required></th>    
                 <th></th>
                 <th></th>
                 <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha1" id="fecha1" value="" class="form-control"  required="required" title=""></th>
-                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha2" id="fecha2" value="" class="form-control"  required="required" title=""></th>
-                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha3" id="fecha3" value="" class="form-control"  required="required" title=""></th>
+                <th></th>
+                <th></th>
                 <th></th>
                 <th></th>
                 
@@ -172,7 +173,7 @@
            
         <tr class="datoLista" style"cursor: pointer;" >
         
-            <td id="{{actividad.codigo_actividad}}">{{actividad.codigo_acividad}}</td>
+            <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
             <td id="">{{actividad.codigo}}</td>
             <td id="">{{actividad.nombre}}</td>
             <td id="">{{actividad.encargado}}</td>
@@ -305,12 +306,12 @@
         });
 
         $("#enviarTarea").click(function (){ 
-           
+           alert($(this).parent().parent().children().attr('id'));
             location.href="{% url 'tarea' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
 
          $(".datoLista").click(function () {
-            alert("aaaa");
+            
                if($(this).hasClass("activo")){
                     agregarForm();
                     $("#modificar").css("display","inline-block");

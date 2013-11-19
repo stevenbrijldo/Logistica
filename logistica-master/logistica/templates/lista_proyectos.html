@@ -4,7 +4,7 @@
 
     {% block css %}
 <style type="text/css">
-    #opcionesAgregar, #panelBuscar, #panelAgregarProyecto {
+    #opcionesAgregar, #panelBuscar, #panelAgregarProyecto{
        display: none;
     }
 
@@ -152,8 +152,8 @@
                 <th></th>
                 <th></th>
                 <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha1" id="fecha1" value="" class="form-control"  required="required" title=""></th>
-                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha2" id="fecha2" value="" class="form-control"  required="required" title=""></th>
-                <th class="buscar" id="3"><input type="date" data-format="yyyy-MM-dd" name="Fecha3" id="fecha3" value="" class="form-control"  required="required" title=""></th>
+                <th> </th>
+                <th></th>
                 <th></th>
                 
         </tr>
@@ -177,7 +177,7 @@
             <td id="">{{proyecto.fecha_fin_real}}</td>
             <td id="">{{proyecto.estado}}</td>
             <td><label  id="enviarActividad" class="btn btn-success btn-sm">
-                <i class="fa fa-save"></i> Actividades
+                <i class="fa fa-plus"></i> Actividades
                 
                 </label></td>
         </tr> 
@@ -296,9 +296,6 @@
         });
 
 
-        
-
-     
 
     
 

@@ -43,6 +43,7 @@ def agregarActividad(request):
 	 	proyecto=Proyecto.objects.get(codigo=ids) 
 		actividad = Actividad.objects.create(codigo_proyecto=proyecto ,codigo=codigo,nombre=nombre_actividad,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
+		actividad.save()
 		actividad=Actividad.objects.all()
 		return render_to_response('lista_actividad.html',{'actividades':actividad,'proyecto':ids}, context_instance=RequestContext(request))
 	else:
@@ -69,7 +70,7 @@ def agregarTarea(request):
 		fecha_fin_real = request.POST['fecha_fin_real']
 	 	estado_tarea= request.POST['estado_tarea']
 	 	ids=request.POST['ID']
-	 	actividad=Actividad.objects.get(codigo_actividad=ids)
+	 	actividad=Actividad.objects.get(codigo=ids)
 		tarea = Tarea.objects.create(codigo_actividad=actividad,codigo=codigo,nombre=nombre_tarea,descripcion=descripcion,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,estado_tarea=estado_tarea)
 		tarea=Tarea.objects.all()
@@ -96,14 +97,16 @@ def modificarProyecto(request):
 		proyecto.encargado=encargado
 		proyecto.objetivo=objetivo
 		proyecto.costo=costo
+		proyecto.fecha_inicio=fecha_inicio
+		proyecto.fecha_fin_estimada=fecha_fin_estimada
 		proyecto.fecha_fin_real=fecha_fin_real
 		proyecto.estado=estado
 		proyecto.save()
 		proyectos=Proyecto.objects.all()
-		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
+		return render_to_response('editar_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
 	else:
 		proyectos=Proyecto.objects.all()
-	return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
+	return render_to_response('editar_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
 	
 
 def modificarActividad(request):
@@ -142,7 +145,7 @@ def modificarTarea(request):
 	 	estado_tarea = request.POST['estado_tarea']
 		tarea = Tarea.objects.get(pk=codigo)
 		tarea.nombre=nombre_tarea
-		tarea.descripcion=descripcio
+		tarea.descripcion=descripcion
 		tarea.fecha_fin_real=fecha_fin_real
 		tarea.save()
 		tarea=Tarea.objects.all()
