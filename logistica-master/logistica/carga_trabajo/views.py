@@ -11,7 +11,7 @@ def proyecto(request):
 	return render_to_response ('lista_proyectos.html',{'cont':3}, context_instance=RequestContext(request))
 def agregarProyecto(request):
 	if request.method == 'POST':
-		codigo = request.POST['codigo']
+		
 		nombre_proyecto = request.POST['nombre']
 		encargado = request.POST['encargado']
 		objetivo = request.POST['objetivo']
@@ -20,7 +20,7 @@ def agregarProyecto(request):
 		fecha_fin_estimada = request.POST['fecha_fin_estimada']
 		fecha_fin_real = request.POST['fecha_fin_real']
 	 	estado= request.POST['estado']
-		proyecto = Proyecto.objects.create(codigo=codigo,nombre=nombre_proyecto,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
+		proyecto = Proyecto.objects.create(nombre=nombre_proyecto,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,objetivo=objetivo,estado=estado)
 		proyectos=Proyecto.objects.all()
 		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
@@ -30,7 +30,7 @@ def agregarProyecto(request):
 
 def agregarActividad(request):
 	if request.method == 'POST':
-		codigo = request.POST['codigo']
+		
 		nombre_actividad = request.POST['nombre']
 		encargado = request.POST['encargado']
 		costo = request.POST['costo']
@@ -41,7 +41,7 @@ def agregarActividad(request):
 	 	estado= request.POST['estado']
 	 	ids=request.POST['ID']
 	 	proyecto=Proyecto.objects.get(codigo=ids) 
-		actividad = Actividad.objects.create(codigo_proyecto=proyecto ,codigo=codigo,nombre=nombre_actividad,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
+		actividad = Actividad.objects.create(codigo_proyecto=proyecto ,nombre=nombre_actividad,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
 		actividad.save()
 		actividad=Actividad.objects.all()
@@ -62,7 +62,7 @@ def tarea(request):
 
 def agregarTarea(request):
 	if request.method == 'POST':
-		codigo = request.POST['codigo']
+		
 		nombre_tarea = request.POST['nombre']
 		descripcion = request.POST['descripcion']
 		fecha_inicio = request.POST['fecha_inicio']
@@ -71,7 +71,7 @@ def agregarTarea(request):
 	 	estado_tarea= request.POST['estado_tarea']
 	 	ids=request.POST['ID']
 	 	actividad=Actividad.objects.get(codigo=ids)
-		tarea = Tarea.objects.create(codigo_actividad=actividad,codigo=codigo,nombre=nombre_tarea,descripcion=descripcion,fecha_inicio=fecha_inicio,
+		tarea = Tarea.objects.create(codigo_actividad=actividad,nombre=nombre_tarea,descripcion=descripcion,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,estado_tarea=estado_tarea)
 		tarea=Tarea.objects.all()
 		return render_to_response('lista_tarea.html',{'tarea':tarea,'actividad':ids}, context_instance=RequestContext(request))
