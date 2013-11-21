@@ -103,10 +103,10 @@ def modificarProyecto(request):
 		proyecto.estado=estado
 		proyecto.save()
 		proyectos=Proyecto.objects.all()
-		return render_to_response('editar_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
+		return render_to_response('lista_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
 	else:
 		proyectos=Proyecto.objects.all()
-	return render_to_response('editar_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
+	return render_to_response('lista_proyecto.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
 	
 
 def modificarActividad(request):
@@ -193,3 +193,13 @@ def desactivarActividad(request):
 		actividad=Actividad.objects.all()
 	return render_to_response('lista_actividad.html',{'actividad':actividad}, context_instance=RequestContext(request))
 	
+def buscarProyecto(request):
+	if request.isajax():
+		proyecto=Proyecto.objects.all()
+		nombre_proyecto = request.POST['nombre_proyecto']
+		proyecto=proyecto.filter(nombre_proyecto__icontains=nombre_proyecto)
+		data=serializers.serialize("json",proyecto)
+		return HttpResponse(data,context_type="aplication/json")
+	else:
+		proyecto=Proyecto.objects.all()
+		return render_to_response('lista_proyecto.html',{'cont':3,'proyecto':proyecto}, context_instance=RequestContext(request))

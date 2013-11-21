@@ -7,6 +7,22 @@
     #opcionesAgregar, #panelBuscar, #panelAgregarProyecto{
        display: none;
     }
+     button{
+        color: #ffffff;
+background-color: #E56814;
+border-color: #E27800;
+cursor: pointer;
+border: 1px solid transparent;
+padding: 5px 10px;
+font-size: 12px;
+line-height: 1.5;
+border-radius: 3px;
+    }
+     button:hover{
+        color: #ffffff;
+  background-color: #E27800;
+  border-color: #E56814;
+    }
 
     .opcionBuscar{
         cursor: pointer;
@@ -28,8 +44,6 @@
             <i class="fa fa-plus"></i> Agregar Proyecto
         </label>
                                      
-        
-        
     </div>
     
     <div id="opcionesAgregar" class="btn-group">
@@ -96,7 +110,7 @@
             </div> 
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Estado</label>
-            <select name="estado"  class="form-control">
+            <select name="estado" id="estado" class="form-control">
                     
                     <option  value="En Ejecucion">En Ejecucion</option>
                     <option  value="Cancelado">Cancelado</option>
@@ -111,7 +125,7 @@
      </div>
      <div class="row">
             <div class="col-lg-2">
-            <button id="enviar"class" btn btn-success btn-sm">Guardar Proyecto</button>
+            <button class" btn btn-success btn-sm" id="enviar" name="codigo">Guardar Proyecto</button>
                 <!--<label  id="enviar" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Guardar
                 </label>-->
@@ -143,7 +157,7 @@
         </tr>
         <tr>
                 <th></th>
-                <th class="buscarNombre" id="1"><input type="text" name="Nombre Proyecto" class="form-control" id="nombre_proyecto" value="" placeholder="Nombre Proyecto" autocomplete="off" required></th>    
+                <th class="buscarNombre" id="1"><input type="text" name="Nombre Proyecto" class="form-control" id="nombre_proyecto" placeholder="Nombre Proyecto" autocomplete="off" rnkeyup="busqueda()"></th> 
                 <th></th>
                 <th></th>
                 <th></th>
@@ -161,17 +175,21 @@
         
          {% for proyecto in proyectos %}
            
-        <tr class="datoLista" style"cursor: pointer;" >
-        
+            {% if solicitud.estado == "No Resuelto" %} 
+            <tr class="datoLista activo alert-danger" style"cursor: pointer;" id="{{proyecto.codigo}}">
+            {% else %}
+        <tr class="datoLista activo" style"cursor: pointer;" id="{{proyecto.codigo}}">
+        {% endif %}
+
             <td id="{{proyecto.codigo}}">{{proyecto.codigo}}</td>
-            <td id="">{{proyecto.nombre}}</td>
-            <td id="">{{proyecto.encargado}}</td>
-            <td id="">{{proyecto.costo}}</td>
-            <td id="">{{proyecto.objetivo}}</td>
-            <td id="">{{proyecto.fecha_inicio}}</td>
-            <td id="">{{proyecto.fecha_fin_estimada}}</td>
-            <td id="">{{proyecto.fecha_fin_real}}</td>
-            <td id="">{{proyecto.estado}}</td>
+            <td id="{{proyecto.nombre}}">{{proyecto.nombre}}</td>
+            <td id="{{proyecto.encargado}}">{{proyecto.encargado}}</td>
+            <td id="{{proyecto.costo}}">{{proyecto.costo}}</td>
+            <td id="{{proyecto.objetivo}}">{{proyecto.objetivo}}</td>
+            <td id="{{proyecto.fecha_inicio|date:'Y-m-d'}}">{{proyecto.fecha_inicio|date:"Y-m-d"}}</td>
+            <td id="{{proyecto.fecha_fin_estimada|date:'Y-m-d'}}">{{proyecto.fecha_fin_estimada|date:"Y-m-d"}}</td>
+            <td id="{{proyecto.fecha_fin_real|date:'Y-m-d'}}">{{proyecto.fecha_fin_real|date:"Y-m-d"}}</td>
+            <td id="{{proyecto.estado}}">{{proyecto.estado}}</td>
             <td><label  id="enviarActividad" class="btn btn-success btn-sm">
                 <i class="fa fa-plus"></i> Actividades
                 
@@ -240,6 +258,18 @@
             $("#panelBuscar").css("display","none");
             $("#listaProyecto").val(1);
             $("#paginacionDiv").css("display","block");
+    }
+
+    function busqueda(){
+        var des=$("#descripcionBus").val();
+        $.ajax({
+            data : {'descripcion':descripcion},
+            url: "{%  url 'buscar_proyecto' %}",
+            method : "POST",
+            success: function (data){
+                console.log(data);
+            }
+        });
     }
 
     $("#agregar").click(function() {
@@ -362,11 +392,11 @@
             location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
          $(".datoLista").click(function () {
-            alert("kkkkkkkkkkkkkkkkkkkkkkk");
-               if($(this).hasClass("activo")){
+            if($(this).hasClass("activo")){
                     agregarForm();
                     $("#modificar").css("display","inline-block");
-                    $("#tituloForm").text("Modificar Oferta");
+                    $("#tituloForm").text("Modificar Proyecto");
+                    $("#agregarForm").attr('action',"{% url 'modificar_proyecto' %}");
                     var info= new Array();
 
                     $(this).find('td').each(function (index) {
@@ -374,16 +404,15 @@
                 });
 
                 console.log($(this).attr("id"));
-                $("#tituloForm").val($(this).attr("id")); 
-                $("#codigo").val(info[0]);
-                $("#nombre_proyecto").val(info[1]);
-                $("#encargado").val(info[2]);
-                $("#costo").val(info[3]);
-                $("#objetivo").val(info[4]);
-                $("#fecha1").val(info[5]);
-                $("#fecha2").val(info[6]);
-                $("#fecha3").val(info[7]);
-                $("#estado").val(info[8]);
+                $("#enviar").val($(this).attr("id")); 
+                $("#nombre_proyecto").val(info[0]);
+                $("#encargado").val(info[1]);
+                $("#costo").val(info[2]);
+                $("#objetivo").val(info[3]);
+                $("#fecha1").val(info[4]);
+                $("#fecha2").val(info[5]);
+                $("#fecha3").val(info[6]);
+                $("#estado").val(info[7]);
 
                 }
            });

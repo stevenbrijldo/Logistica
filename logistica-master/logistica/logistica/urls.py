@@ -24,6 +24,7 @@ urlpatterns = patterns('',
 
     url(r'^carga_proyecto/$','carga_trabajo.views.agregarProyecto', name='agregar_proyecto'),
     url(r'^modificar_proyecto/$','carga_trabajo.views.modificarProyecto', name='modificar_proyecto'),
+    url(r'^buscar_proyecto/$','carga_trabajo.views.buscarProyecto', name='buscar_proyecto'),
    
     url(r'^carga_actividad/$','carga_trabajo.views.agregarActividad', name='agregar_actividad'),
     url(r'^modificar_actividad/$','carga_trabajo.views.modificarActividad', name='modificar_actividad'),
