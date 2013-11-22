@@ -7,6 +7,22 @@
     #opcionesAgregar, #panelBuscar, #panelAgregarActividad {
        display: none;
     }
+ button{
+        color: #ffffff;
+background-color: #E56814;
+border-color: #E27800;
+cursor: pointer;
+border: 1px solid transparent;
+padding: 5px 10px;
+font-size: 12px;
+line-height: 1.5;
+border-radius: 3px;
+    }
+     button:hover{
+        color: #ffffff;
+  background-color: #E27800;
+  border-color: #E56814;
+    }
 
     .opcionBuscar{
         cursor: pointer;
@@ -78,7 +94,7 @@
         <div class="row">           
             <div class="form-group col-lg-6">
                <label for="">Fecha de Inicio</label>
-               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" value=""  required="required" title="">
+               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
            </div>
 
             <div class="form-group col-lg-6">
@@ -88,11 +104,11 @@
 
              <div class="form-group col-lg-6">
              <label for="">Fecha Final Real</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha2" class="form-control"  required="required" title="">
+             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
             </div> 
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Tipo Actividad</label>
-            <select name="tipo_actividad"  class="form-control">
+            <select name="tipo_actividad" id="tipo_actividad" class="form-control">
                     
                     <option  value="Administrativo">Administrativa</option>
                     <option  value="Solicitud"Atencion>Atencion</option>
@@ -102,7 +118,7 @@
             </div>
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Estado Actividad</label>
-            <select name="estado"  class="form-control">
+            <select name="estado" id="estado" class="form-control">
                     
                     <option  value="Activo">Activo</option>
                     <option  value="Inactivo">Inactivo</option>
@@ -116,7 +132,7 @@
      </div>
      <div class="row">
             <div class="col-lg-2">
-            <button class" btn btn-success btn-sm" name="ID" value="{{proyecto}}">Guardar Actividad</button>
+            <button class" btn btn-success btn-sm" id="codigo" name="codigo" value="{{proyecto}}">Guardar Actividad</button>
                 <!--<label  id="enviar" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Guardar
                 </label>-->
@@ -166,19 +182,22 @@
 
         
          {% for actividad in actividades %}
-           
-        <tr class="datoLista" style"cursor: pointer;" >
+            {% if actividad.estado == "Inactivo" %} 
+            <tr class="datoLista activo alert-danger" style"cursor: pointer;" id="{{actividad.codigo}}">
+            {% else %}
+            <tr class="datoLista activo" style"cursor: pointer;" id="{{actividad.codigo}}">
+            {% endif %}
         
             <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
-            <td id="">{{actividad.codigo}}</td>
-            <td id="">{{actividad.nombre}}</td>
-            <td id="">{{actividad.encargado}}</td>
-            <td id="">{{actividad.costo}}</td>
-            <td id="">{{actividad.fecha_inicio}}</td>
-            <td id="">{{actividad.fecha_fin_estimada}}</td>
-            <td id="">{{actividad.fecha_fin_real}}</td>
-            <td id="">{{actividad.tipo_actividad}}</td>
-            <td id="">{{actividad.estado}}</td>
+            <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
+            <td id="{{actividad.nombre}}">{{actividad.nombre}}</td>
+            <td id="{{actividad.encargado}}">{{actividad.encargado}}</td>
+            <td id="{{actividad.costo}}">{{actividad.costo}}</td>
+            <td id="{{actividad.fecha_inicio|date:'Y-m-d'}}">{{actividad.fecha_inicio|date:"Y-m-d"}}</td>
+            <td id="{{actividad.fecha_fin_estimada|date:'Y-m-d'}}">{{actividad.fecha_fin_estimada|date:"Y-m-d"}}</td>
+            <td id="{{actividad.fecha_fin_real|date:'Y-m-d'}}">{{actividad.fecha_fin_real|date:"Y-m-d"}}</td>
+            <td id="{{actividad.tipo_actividad}}">{{actividad.tipo_actividad}}</td>
+            <td id="{{actividad.estado}}">{{actividad.estado}}</td>
             <td><label  id="enviarTarea" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Tareas
                
@@ -311,7 +330,8 @@
                if($(this).hasClass("activo")){
                     agregarForm();
                     $("#modificar").css("display","inline-block");
-                    $("#tituloForm").text("Modificar Oferta");
+                    $("#tituloForm").text("Modificar Actividad");
+                    $("#agregarForm").attr('action',"{% url 'modificar_actividad' %}");
                     var info= new Array();
 
                     $(this).find('td').each(function (index) {
@@ -319,15 +339,15 @@
                 });
 
                 console.log($(this).attr("id"));
-                $("#tituloForm").val($(this).attr("id")); 
-                $("#codigo").val(info[0]);
-                $("#nombre_Actividad").val(info[1]);
-                $("#encargado").val(info[2]);
-                $("#costo").val(info[3]);
-                $("#fecha1").val(info[4]);
-                $("#fecha2").val(info[5]);
-                $("#fecha3").val(info[6]);
-                $("#tipo_actividad").val(info[7]);
+                $("#codigo").val($(this).attr("id")); 
+                $("#nombre_actividad").val(info[2]);
+                $("#encargado").val(info[3]);
+                $("#costo").val(info[4]);
+                $("#fecha1").val(info[5]);
+                $("#fecha2").val(info[6]);
+                $("#fecha3").val(info[7]);
+                $("#tipo_actividad").val(info[8]);
+                $("#estado").val(info[9]);
 
                 }
            });

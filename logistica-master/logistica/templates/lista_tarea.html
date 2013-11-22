@@ -86,7 +86,7 @@ border-radius: 3px;
             <div class="row">           
             <div class="form-group col-lg-6">
                <label for="">Fecha de Inicio</label>
-               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" value=""  required="required" title="">
+               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
            </div>
 
             <div class="form-group col-lg-6">
@@ -96,11 +96,11 @@ border-radius: 3px;
 
              <div class="form-group col-lg-6">
              <label for="">Fecha Final Real</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha2" class="form-control"  required="required" title="">
+             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
             </div> 
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Estado Tarea</label>
-            <select name="estado_tarea"  class="form-control">
+            <select name="estado_tarea" id="estado" class="form-control">
                     
                     <option  value="En Espera">En Espera</option>
                     <option  value="Resuelto">Resuelto</option>
@@ -115,7 +115,7 @@ border-radius: 3px;
      </div>
      <div class="row">
             <div class="col-lg-2">
-            <button class" btn btn-success btn-sm" name="ID" value="{{actividad}}">Guardar Tarea</button>
+            <button class" btn btn-success btn-sm" id="codigo" name="codigo" value="{{actividad}}">Guardar Tarea</button>
                 <!--<label  id="enviar" class="btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Guardar
                 </label>-->
@@ -161,15 +161,19 @@ border-radius: 3px;
         
          {% for tarea in tarea %}
            
-        <tr class="datoLista" style"cursor: pointer;" >
+        {% if tarea.estado == "No Resuelto" %} 
+            <tr class="datoLista activo alert-danger" style"cursor: pointer;" id="{{tarea.codigo}}">
+            {% else %}
+        <tr class="datoLista activo" style"cursor: pointer;" id="{{tarea.codigo}}">
+        {% endif %}
         
-            <td id="">{{tarea.codigo}}</td>
-            <td id="">{{tarea.nombre}}</td>
-            <td id="">{{tarea.descripcion}}</td>
-            <td id="">{{tarea.fecha_inicio}}</td>
-            <td id="">{{tarea.fecha_fin_estimada}}</td>
-            <td id="">{{tarea.fecha_fin_real}}</td>
-            <td id="">{{tarea.estado_tarea}}</td>
+            <td id="{{tarea.codigo}}">{{tarea.codigo}}</td>
+            <td id="{{tarea.nombre}}">{{tarea.nombre}}</td>
+            <td id="{{tarea.descripcion}}">{{tarea.descripcion}}</td>
+            <td id="{{tarea.fecha_inicio|date:'Y-m-d'}}">{{tarea.fecha_inicio|date:"Y-m-d"}}</td>
+            <td id="{{tarea.fecha_fin_estimada|date:'Y-m-d'}}">{{tarea.fecha_fin_estimada|date:"Y-m-d"}}</td>
+            <td id="{{tarea.fecha_fin_real|date:'Y-m-d'}}">{{tarea.fecha_fin_real|date:"Y-m-d"}}</td>
+            <td id="{{tarea.estado_tarea}}">{{tarea.estado_tarea}}</td>
            
         {% endfor%}
        
@@ -290,7 +294,8 @@ border-radius: 3px;
                if($(this).hasClass("activo")){
                     agregarForm();
                     $("#modificar").css("display","inline-block");
-                    $("#tituloForm").text("Modificar Oferta");
+                    $("#tituloForm").text("Modificar Tarre");
+                    $("#agregarForm").attr('action',"{% url 'modificar_tarea' %}");
                     var info= new Array();
 
                     $(this).find('td').each(function (index) {
@@ -298,14 +303,13 @@ border-radius: 3px;
                 });
 
                 console.log($(this).attr("id"));
-                $("#tituloForm").val($(this).attr("id")); 
-                $("#codigo").val(info[0]);
-                $("#nombre_Tarea").val(info[1]);
-                $("#descripcion").val(info[3]);
-                $("#fecha1").val(info[4]);
-                $("#fecha2").val(info[5]);
-                $("#fecha3").val(info[6]);
-                $("#estado_tarea").val(info[7]);
+                $("#codigo").val($(this).attr("id")); 
+                $("#nombre_tarea").val(info[1]);
+                $("#descripcion").val(info[2]);
+                $("#fecha1").val(info[3]);
+                $("#fecha2").val(info[4]);
+                $("#fecha3").val(info[5]);
+                $("#estado_tarea").val(info[6]);
 
                 }
            });
