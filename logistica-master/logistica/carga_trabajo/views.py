@@ -158,45 +158,6 @@ def modificarTarea(request):
 		tarea=Tarea.objects.all()
 	return render_to_response('lista_tarea.html',{'tarea':tarea}, context_instance=RequestContext(request))
 
-def desactivarProyecto(request):
-	if request.method == 'POST':
-		codigo = request.POST['codigo']
-		nombre_proyecto = request.POST['nombre']
-		encargado = request.POST['encargado']
-		objetivo = request.POST['objetivo']
-		costo = request.POST['costo']
-		fecha_inicio = request.POST['fecha_inicio']
-		fecha_fin_estimada = request.POST['fecha_fin_estimada']
-		fecha_fin_real = request.POST['fecha_fin_real']
-	 	estado= request.POST['estado']
-		proyecto = Proyecto.objects.get(pk=codigo)
-		proyecto.estado=estado
-		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
-	else:
-		proyectos=Proyecto.objects.all()
-	return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
-	
-
-def desactivarActividad(request):
-	if request.method == 'POST':
-		codigo = request.POST['codigo']
-		nombre_actividad = request.POST['nombre']
-		encargado = request.POST['encargado']
-		costo = request.POST['costo']
-		fecha_inicio = request.POST['fecha_inicio']
-		fecha_fin_estimada = request.POST['fecha_fin_estimada']
-		fecha_fin_real = request.POST['fecha_fin_real']
-	 	tipo_actividad= request.POST['tipo_actividad']
-	 	estado= request.POST['estado']
-		actividad = Actividad.objects.get(pk=codigo)
-		actividad.estado=estado
-		actividad.save()
-		actividad=Actividad.objects.all()
-		return render_to_response('lista_actividad.html',{'actividad':actividad}, context_instance=RequestContext(request))
-	else:
-		actividad=Actividad.objects.all()
-	return render_to_response('lista_actividad.html',{'actividad':actividad}, context_instance=RequestContext(request))
-	
 def buscarProyecto(request):
 	if request.isajax():
 		proyecto=Proyecto.objects.all()
@@ -207,3 +168,21 @@ def buscarProyecto(request):
 	else:
 		proyecto=Proyecto.objects.all()
 		return render_to_response('lista_proyecto.html',{'cont':3,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+
+def proyectoAtrasados(request):
+	if request.method == 'POST':
+		
+		nombre_proyecto = request.POST['nombre']
+		encargado = request.POST['encargado']
+		objetivo = request.POST['objetivo']
+		costo = request.POST['costo']
+		fecha_inicio = request.POST['fecha_inicio']
+		fecha_fin_estimada = request.POST['fecha_fin_estimada']
+		fecha_fin_real = request.POST['fecha_fin_real']
+	 	estado= request.POST['estado']
+		proyectos=Proyecto.objects.all()
+		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
+	else:
+		proyectos=Proyecto.objects.all()
+		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
