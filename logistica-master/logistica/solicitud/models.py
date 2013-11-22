@@ -11,3 +11,5 @@ class Solicitud(models.Model):
 	fecha = models.DateField(null=False)
 	def __unicode__(self):
 		return self.nombre
+
+	
