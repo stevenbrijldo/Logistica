@@ -1,0 +1,239 @@
+ {% extends 'rh_base.html' %}
+ 	{% block js %}
+    {% endblock %}
+
+	{% block css %}
+		<style type="text/css">
+		    #opcionesAtras, #panelBuscar, #panelEnviarMensaje {
+		       display: none;
+		    }
+		    button{
+		        color: #ffffff;
+				background-color: #E56814;
+				border-color: #E27800;
+				cursor: pointer;
+				border: 1px solid transparent;
+				padding: 5px 10px;
+				font-size: 12px;
+				line-height: 1.5;
+				border-radius: 3px;
+
+		    }
+		    button:hover{
+		        color: #ffffff;
+				background-color: #E27800;
+				border-color: #E56814;
+		    }
+		    .opcionBuscar{
+		        cursor: pointer;
+		    }
+
+		    .datoLista{
+		        cursor: pointer;
+		    }
+		</style>
+
+	{% endblock %}
+
+	{% block contenido %}
+
+		<div id="opcionesEnvio" class="btn-group">
+		    <label  id="enviarMensaje" class="btn btn-success btn-sm">
+		        <i class="fa fa-envelope"></i> Enviar Mensaje
+		    </label> 
+		</div>
+
+		<div id="opcionesAtras" class="btn-group">
+            <label  id="cancelar"  class="btn btn-success btn-sm">
+	            <i class="fa fa-arrow-left"></i> Atras
+	        </label>
+    	</div>
+
+		<div id="panelEnviarMensaje">
+        	<form  id="agregarForm" action="{%  url 'agregar_mensaje' %}" role="form" method='POST'>
+        		{% csrf_token %}
+        			<legend id="tituloForm" value="" name="id" >Enviar Mensaje</legend>
+						<div class="row">  
+          
+				            <div class="form-group col-lg-6">
+				                <label for="">Para</label>
+				                <select name="para" id="para" class="form-control">
+				                    {% for persona in personas %}
+				                    	<option  value="{{persona.documento}}">{{persona.nombres}}</option>
+				                    {% endfor %}
+                				</select>
+				            </div>       
+				                      
+				        </div>
+						<div class="row"> 
+					        <div class="form-group col-lg-12">
+					                <label for="">Mensaje</label>					                
+					                <TEXTAREA name="mensaje" class="form-control" id="mensaje"  placeholder="Escriba su mensaje" required ></TEXTAREA>
+					        </div>        
+					      
+						</div>
+				     	<div class="row">
+				            <div class="col-lg-2">
+				            	<button class"btn btn-success btn-sm" id="enviar" name="enviarBoton">Enviar</button>       
+				            </div>
+				    	</div>
+
+			</form>
+		</div>
+
+    	<table id="listaMensaje" class="table table-striped table-hover" value="1">
+
+		    <thead>
+		        <tr>
+		            <th>Remite</th>
+		            <th>Mensaje</th> 
+		        </tr>  
+		    </thead>
+		     <tbody class="tabla" id="tabla" value="{{cont}}">
+		        {% for solicitud in "xxxxxxxxxx" %}
+			        <tr class="datoLista activo" style"cursor: pointer;" id="">
+			            <td id=""></td>
+			            <td id=""></td>
+			        </tr> 
+		        {% endfor%}
+		    </tbody>
+		</table>
+
+		<center id="paginacionDiv">
+		    <ul class="pagination" value="{{pag}}">
+		      <li class="paginacionLi" value="-1"><a style="cursor: pointer;">&laquo;</a></li>
+		       
+		      <li class="paginacionLi" value="-2"><a style="cursor: pointer;">&raquo;</a></li>
+		  </ul>
+		</center>
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+      
+        $("#listaMensaje").css("display","table");
+        obtener();
+    });
+
+    function agregarForm(){
+    	console.log("222");
+        $("#opcionesEnvios").css("display","none");
+        $("#opcionesAtras").css("display","inline-block");
+        $("#panelEnviarMensajes").css("display","block");
+        $("#listaMensaje").val(1);
+        $("#paginacionDiv").css("display","none");
+    }		
+
+    $("#enviarMensaje").click(function() {
+       
+        $("#opcionesEnvio").css("display","none");
+        $("#opcionesAtras").css("display","inline-block");
+        $("#panelEnviarMensaje").css("display","block");
+
+    });
+
+    $("#opcionesAtras").click(function() {
+
+        $("#opcionesEnvio").css("display","inline-block");
+        $("#opcionesAtras").css("display","none");
+        $("#panelEnviarMensaje").css("display","none");
+
+    });
+
+    function actualizar(data){
+        $("#tabla").find("tr").each(function (cont){
+            if(cont<data.length){
+                $(this).css("display","table-row");
+                $(this).attr("id",data[cont].pk);
+                $(this).removeClass("danger");
+                console.log(data[cont].fields.de);
+                $(this).find("td").each(function (cont2){
+                    switch(cont2){
+                        case 0:
+                            $(this).attr('id',data[cont].fields.de);
+                            $(this).text(data[cont].fields.de);
+                        break;
+                        case 1:
+                            $(this).attr('id',data[cont].fields.mensaje);
+                            $(this).text(data[cont].fields.mensaje);
+                        break;
+                    }
+                });
+            }else{
+                $(this).css("display","none");
+                $(this).removeClass("danger");
+            }
+
+      });
+    }
+
+    function obtener(){
+        $(".pagination").val(1);
+        $.ajax({   
+            url: "{%  url 'obtener_mensaje' %}",           
+            success: function (data){
+                console.log(data);
+                actualizar(data);
+            }
+        });
+    }
+
+    $(".datoLista").click(function () {
+       if($(this).hasClass("activo")){
+            agregarForm();
+            $("#modificar").css("display","inline-block");
+            $("#tituloForm").text("Modificar Solicitud");
+            $("#agregarForm").attr('action',"{% url 'modificar_solicitud' %}");
+            var info= new Array();
+
+            $(this).find('td').each(function (index) {
+            info[index]=$(this).attr('id');
+        });
+
+        console.log($(this).attr("id"));
+        $("#enviar").val($(this).attr("id")); 
+        $("#cliente").val(info[0]);
+        $("#descripcion").val(info[1]);
+        
+        $("#fecha").val(info[2]);
+        $("#estado").val(info[3]);
+        //document.getElementById("estado").value=info[3];
+        //$("#estado").attr('selected',"");
+        
+        }
+    });
+
+    
+    function getCookie(name) {
+	    var cookieValue = null;
+		    if (document.cookie && document.cookie != '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+	}
+
+</script>
+
+{% endblock %}
+
