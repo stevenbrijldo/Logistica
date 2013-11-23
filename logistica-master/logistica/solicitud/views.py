@@ -28,6 +28,7 @@ def agregarSolicitud(request):
 	else:
 		solicitud=Solicitud.objects.all()
 		return render_to_response('solicitud.html',{'cont':3,'solicitudes':solicitud}, context_instance=RequestContext(request))
+
 def modificarSolicitud(request):
 	if request.method == 'POST':
 		codigo = request.POST['codigo']
