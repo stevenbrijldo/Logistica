@@ -1,0 +1,21 @@
+{% extends 'rh_base.html' %}
+
+{% block js %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/config_user.js"></script>
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/config_user.css">
+{% endblock %}
+
+{% block contenido %}
+	<a href="#" id="change_pass">Cambiar password</a>
+	<div id="change_pass_container">
+		<label>Nueva Contraseña:</label>
+		<input type="password" id="new_pass"></input>
+		<label>Repita la contraseña:</label>
+		<input type="password" id="repeat_pass"></input>
+		<input type="submit" value="Cambiar Contraseña"></input>
+	</div>
+	<div class="message_box"></div>
+{% endblock %}

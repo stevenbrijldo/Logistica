@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>ERP</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.css">
+	<!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css"> -->
+	{% block css %}{% endblock %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/csrf.js"></script>
+	{% block js %}{% endblock %}
+</head>
+<body>
+	{% block content %}{% endblock %}
+</body>
+</html>

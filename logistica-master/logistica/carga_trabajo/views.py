@@ -10,8 +10,7 @@ from django.template import RequestContext
 def proyecto(request):
 	return render_to_response ('lista_proyectos.html',{'cont':3}, context_instance=RequestContext(request))
 def agregarProyecto(request):
-	if request.method == 'POST':
-		
+	if request.method == 'POST':		
 		nombre_proyecto = request.POST['nombre']
 		encargado = request.POST['encargado']
 		objetivo = request.POST['objetivo']
