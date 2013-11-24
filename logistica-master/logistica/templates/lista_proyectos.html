@@ -176,7 +176,7 @@ border-radius: 3px;
          {% for proyecto in proyectos %}
            
             {% if proyecto.estado == "Cancelado" %} 
-            <tr class="datoLista activo alert-danger" style"cursor: pointer;" id="{{proyecto.codigo}}">
+            <tr class="datoLista activo danger" style"cursor: pointer;" id="{{proyecto.codigo}}">
             {% else %}
         <tr class="datoLista activo" style"cursor: pointer;" id="{{proyecto.codigo}}">
         {% endif %}
@@ -189,7 +189,7 @@ border-radius: 3px;
             <td id="{{proyecto.fecha_fin_estimada|date:'Y-m-d'}}">{{proyecto.fecha_fin_estimada|date:"Y-m-d"}}</td>
             <td id="{{proyecto.fecha_fin_real|date:'Y-m-d'}}">{{proyecto.fecha_fin_real|date:"Y-m-d"}}</td>
             <td id="{{proyecto.estado}}">{{proyecto.estado}}</td>
-            <td><label  id="enviarActividad" class="btn btn-success btn-sm">
+            <td><label  id="" class="enviarActividad btn btn-success btn-sm">
                 <i class="fa fa-plus"></i> Actividades
                 
                 </label></td>
@@ -386,7 +386,7 @@ border-radius: 3px;
         });
         }
     });*/
-        $("#enviarActividad").click(function (){ 
+        $(".enviarActividad").click(function (){ 
            
             location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });

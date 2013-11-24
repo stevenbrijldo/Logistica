@@ -188,7 +188,7 @@ border-radius: 3px;
             <tr class="datoLista activo" style"cursor: pointer;" id="{{actividad.codigo}}">
             {% endif %}
         
-            <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
+          
             <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
             <td id="{{actividad.nombre}}">{{actividad.nombre}}</td>
             <td id="{{actividad.encargado}}">{{actividad.encargado}}</td>
@@ -198,7 +198,7 @@ border-radius: 3px;
             <td id="{{actividad.fecha_fin_real|date:'Y-m-d'}}">{{actividad.fecha_fin_real|date:"Y-m-d"}}</td>
             <td id="{{actividad.tipo_actividad}}">{{actividad.tipo_actividad}}</td>
             <td id="{{actividad.estado}}">{{actividad.estado}}</td>
-            <td><label  id="enviarTarea" class="btn btn-success btn-sm">
+            <td><label  id="" class="enviarTarea btn btn-success btn-sm">
                 <i class="fa fa-save"></i> Tareas
                
                 </label></td>
@@ -320,7 +320,7 @@ border-radius: 3px;
             
         });
 
-        $("#enviarTarea").click(function (){ 
+        $(".enviarTarea").click(function (){ 
            alert($(this).parent().parent().children().attr('id'));
             location.href="{% url 'tarea' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
