@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from solicitud.models import Solicitud
 from django.core import serializers
+import json
+from django.core.paginator import Paginator
 
 def solicitud(request):
 	solicitud=Solicitud.objects.all()
@@ -26,6 +28,7 @@ def agregarSolicitud(request):
 	else:
 		solicitud=Solicitud.objects.all()
 		return render_to_response('solicitud.html',{'cont':3,'solicitudes':solicitud}, context_instance=RequestContext(request))
+
 def modificarSolicitud(request):
 	if request.method == 'POST':
 		codigo = request.POST['codigo']
@@ -45,12 +48,37 @@ def modificarSolicitud(request):
 		solicitud=Solicitud.objects.all()
 		return render_to_response('solicitud.html',{'cont':3,'solicitudes':solicitud}, context_instance=RequestContext(request))
 def buscarSolicitud(request):
-	if request.isajax():
+	if request.is_ajax():
+		if request.method == "POST":
+			descripcion = request.POST['descripcion']
+			solicitud = Solicitud.objects.filter(descripcion__icontains=descripcion)
+			data=serializers.serialize("json",solicitud)
+			return HttpResponse(data,mimetype="application/json")
+	else:
 		solicitud=Solicitud.objects.all()
-		descripcion = request.POST['descripcion']
-		solicitud=solicitud.filter(descripcion__icontains=descripcion)
-		data=serializers.serialize("json",solicitud)
-		return HttpResponse(data,context_type="aplication/json")
+		return render_to_response('solicitud.html',{'cont':3,'solicitudes':solicitud}, context_instance=RequestContext(request))
+def obtenerSolicitud(request):
+	if request.is_ajax():
+		solicitud = Solicitud.objects.all()
+		if(request.method=="POST"):
+			pag=request.POST['pag']
+			lista=Paginator(solicitud,10)
+			cont=lista.num_pages;
+			print pag+" sasdf"
+			solicitud=lista.page(1).object_list
+			if int(pag)>cont:
+				solicitud=lista.page(cont).object_list
+				pag=cont
+			else:
+				solicitud=lista.page(int(pag)).object_list	
+			data={}
+			data['pagina']=pag
+			data['informacion']=serializers.serialize("json",solicitud)	
+			return HttpResponse(json.dumps(data),mimetype="application/json")
+		else:		
+			data=serializers.serialize("json",solicitud)
+			
+			return HttpResponse(data,mimetype="application/json")
 	else:
 		solicitud=Solicitud.objects.all()
 		return render_to_response('solicitud.html',{'cont':3,'solicitudes':solicitud}, context_instance=RequestContext(request))
