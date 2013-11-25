@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from carga_trabajo.models import Actividad, Proyecto, Tarea
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from datetime import *
 
 #Vistas de Compras
@@ -15,12 +16,11 @@ def agregarProyecto(request):
 		nombre_proyecto = request.POST['nombre']
 		encargado = request.POST['encargado']
 		objetivo = request.POST['objetivo']
-		costo = request.POST['costo']
 		fecha_inicio = request.POST['fecha_inicio']
 		fecha_fin_estimada = request.POST['fecha_fin_estimada']
 		fecha_fin_real = request.POST['fecha_fin_real']
 	 	estado= request.POST['estado']
-		proyecto = Proyecto.objects.create(nombre=nombre_proyecto,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
+		proyecto = Proyecto.objects.create(nombre=nombre_proyecto,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,objetivo=objetivo,estado=estado)
 		proyectos=Proyecto.objects.all()
 		return render_to_response('lista_proyectos.html',{'proyectos':proyectos}, context_instance=RequestContext(request))
@@ -33,7 +33,7 @@ def agregarActividad(request):
 		
 		nombre_actividad = request.POST['nombre']
 		encargado = request.POST['encargado']
-		costo = request.POST['costo']
+		
 		fecha_inicio = request.POST['fecha_inicio']
 		fecha_fin_estimada = request.POST['fecha_fin_estimada']
 		fecha_fin_real = request.POST['fecha_fin_real']
@@ -41,7 +41,7 @@ def agregarActividad(request):
 	 	estado= request.POST['estado']
 	 	ids=request.POST['codigo']
 	 	proyecto=Proyecto.objects.get(codigo=ids) 
-		actividad = Actividad.objects.create(codigo_proyecto=proyecto ,nombre=nombre_actividad,costo=costo,encargado=encargado,fecha_inicio=fecha_inicio,
+		actividad = Actividad.objects.create(codigo_proyecto=proyecto ,nombre=nombre_actividad,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
 		actividad.save()
 		actividad=Actividad.objects.filter(codigo_proyecto=ids)
@@ -49,6 +49,30 @@ def agregarActividad(request):
 	else:
 		actividad=Actividad.objects.all()
 		return render_to_response('lista_actividad.html',{'actividades':actividad}, context_instance=RequestContext(request))
+
+def agregarActividadSolicitud(request):
+	if request.method == 'POST':
+		
+		nombre_actividad = request.POST['nombre']
+		encargado = request.POST['encargado']
+		
+		fecha_inicio = request.POST['fecha_inicio']
+		fecha_fin_estimada = request.POST['fecha_fin_estimada']
+		fecha_fin_real = request.POST['fecha_fin_real']
+	 	tipo_actividad= request.POST['tipo_actividad']
+	 	estado= request.POST['estado']
+	 	ids=request.POST['codigo']
+	 	solicitud=Solicitud.objects.get(codigo=ids) 
+		actividad = Actividad.objects.create(codigo_solicitud=solicitud ,nombre=nombre_actividad,encargado=encargado,fecha_inicio=fecha_inicio,
+		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
+		actividad.save()
+		actividad=Actividad.objects.filter(codigo_solicitud=ids)
+		return render_to_response('lista_actividad.html',{'actividades':actividad,'solicitud':ids}, context_instance=RequestContext(request))
+	else:
+		actividad=Actividad.objects.all()
+		return render_to_response('lista_actividad.html',{'actividades':actividad}, context_instance=RequestContext(request))
+
+
 
 def actividad(request):
 	actividadproyecto = request.GET['ID']

@@ -19,10 +19,10 @@ DATABASES = {
         'NAME': 'logistica',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        #'PASSWORD': '12345',
-        'PASSWORD': '',
-        #'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'HOST': '127.0.0.1',
+        'PASSWORD': '12345',
+        #'PASSWORD': '',
+        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        #'HOST': '127.0.0.1',
         'PORT': '3306',                      # Set to empty string for default.
     }
 }
@@ -131,7 +131,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
     'carga_trabajo',
     'inicio',
     'solicitud',

@@ -82,11 +82,7 @@ border-radius: 3px;
                 <input type="text" name="encargado" class="form-control" id="encargado" placeholder="Encargado" required>
 
             </div>
-            <div class="form-group col-lg-6">
-                <label for="">Costo</label>
-                <input type="text" name="costo" class="form-control" id="costo"  placeholder="Costo" required>
-            
-            </div>
+           
             <div class="row">  
                 
             </div>
@@ -153,7 +149,7 @@ border-radius: 3px;
                 <th>Codigo</th>
                 <th>Nombre Actividad</th>  
                 <th>Encargado</th> 
-                <th>Costo</th> 
+            
                 <th>Fecha Inicio</th>
                 <th>Fecha Final</th>
                 <th>Fecha Final Real</th>
@@ -192,7 +188,7 @@ border-radius: 3px;
             <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
             <td id="{{actividad.nombre}}">{{actividad.nombre}}</td>
             <td id="{{actividad.encargado}}">{{actividad.encargado}}</td>
-            <td id="{{actividad.costo}}">{{actividad.costo}}</td>
+           
             <td id="{{actividad.fecha_inicio|date:'Y-m-d'}}">{{actividad.fecha_inicio|date:"Y-m-d"}}</td>
             <td id="{{actividad.fecha_fin_estimada|date:'Y-m-d'}}">{{actividad.fecha_fin_estimada|date:"Y-m-d"}}</td>
             <td id="{{actividad.fecha_fin_real|date:'Y-m-d'}}">{{actividad.fecha_fin_real|date:"Y-m-d"}}</td>
@@ -342,12 +338,12 @@ border-radius: 3px;
                 $("#codigo").val($(this).attr("id")); 
                 $("#nombre_actividad").val(info[2]);
                 $("#encargado").val(info[3]);
-                $("#costo").val(info[4]);
-                $("#fecha1").val(info[5]);
-                $("#fecha2").val(info[6]);
-                $("#fecha3").val(info[7]);
-                $("#tipo_actividad").val(info[8]);
-                $("#estado").val(info[9]);
+              
+                $("#fecha1").val(info[4]);
+                $("#fecha2").val(info[5]);
+                $("#fecha3").val(info[6]);
+                $("#tipo_actividad").val(info[7]);
+                $("#estado").val(info[8]);
 
                 }
            });

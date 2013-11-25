@@ -1,11 +1,11 @@
 from django.db import models
+from solicitud.models import Solicitud
 
 
 # Create your models here.
 class Proyecto(models.Model):
 	codigo = models.AutoField(primary_key=True)
 	nombre = models.CharField(max_length=100)
-	costo = models.DecimalField(max_digits=10,decimal_places=2)
 	encargado = models.CharField(max_length=100)
 	fecha_inicio = models.DateField(null=False)
 	fecha_fin_estimada = models.DateField(null=False)
@@ -18,9 +18,9 @@ class Proyecto(models.Model):
 
 class Actividad(models.Model):
 	codigo = models.AutoField(primary_key=True)
-	codigo_proyecto=models.ForeignKey(Proyecto)
+	codigo_proyecto=models.ForeignKey(Proyecto,null=True)
+	codigo_solicitud=models.ForeignKey(Solicitud,null=True)
 	nombre = models.CharField(max_length=100)
-	costo = models.DecimalField(max_digits=10,decimal_places=2)
 	encargado = models.CharField(max_length=100)
 	fecha_inicio = models.DateField(null=False)
 	fecha_fin_estimada = models.DateField(null=False)
