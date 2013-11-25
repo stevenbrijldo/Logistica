@@ -13,11 +13,11 @@ from django.contrib.auth.decorators import login_required
 from datetime import*
 
 def holaMundo(request):
-	html = "<html><body>Hola Mundo desde DJANGO</body></html>"
+	html = "<html><body>Hola Mundo</body></html>"
 	return HttpResponse(html)
 
 def modificarMensaje(request):
-	html = "<html><body>Hola Mundo desde DJANGO</body></html>"
+	html = "<html><body>Hola Mundo</body></html>"
 	return HttpResponse(html)
 
 def mensajes(request): 

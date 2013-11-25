@@ -32,8 +32,8 @@
 				<!-- --> 
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a href="#">
-							<i class="fa fa-envelope"></i>
+						<a href="../../comunicacion/mensajes/" >
+							<i class="fa fa-envelope" id="nmensajes"></i>
 						</a>
 					</li>
 					<li class="dropdown">
@@ -76,4 +76,55 @@
 	</div>
 </footer>
 </body>
+
+
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+
+    	obtener2();
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        
+    });
+
+    function obtener2(){
+        $.ajax({   
+            url: "{%  url 'obtener_mensaje' %}",           
+            success: function (data){
+                $("#nmensajes").text(" "+data.length);
+            }
+        });
+    }
+
+        function getCookie(name) {
+	    var cookieValue = null;
+		    if (document.cookie && document.cookie != '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+	}
+
+</script>	
 </html>
