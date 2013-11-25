@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from datetime import *
+from django.core import serializers
 
 #Vistas de Compras
 
@@ -100,7 +101,7 @@ def agregarTarea(request):
 		return render_to_response('lista_tarea.html',{'tarea':tarea,'actividad':ids}, context_instance=RequestContext(request))
 	else:
 		tarea=Tarea.objects.all()
-		return render_to_response('lista_tarea.html',{'tarea':tarea}, context_instance=RequestContext(request))
+		return render_to_response('lista_tarea.html',{'tarea':tarea}, context_instance=RequestContext(request))		
 
 
 
@@ -110,7 +111,6 @@ def modificarProyecto(request):
 		nombre_proyecto = request.POST['nombre']
 		encargado = request.POST['encargado']
 		objetivo = request.POST['objetivo']
-		costo = request.POST['costo']
 		fecha_inicio = request.POST['fecha_inicio']
 		fecha_fin_estimada = request.POST['fecha_fin_estimada']
 		fecha_fin_real = request.POST['fecha_fin_real']
@@ -119,7 +119,7 @@ def modificarProyecto(request):
 		proyecto.nombre=nombre_proyecto
 		proyecto.encargado=encargado
 		proyecto.objetivo=objetivo
-		proyecto.costo=costo
+		
 		proyecto.fecha_inicio=fecha_inicio
 		proyecto.fecha_fin_estimada=fecha_fin_estimada
 		proyecto.fecha_fin_real=fecha_fin_real
@@ -197,4 +197,9 @@ def buscarProyecto(request):
 def proyectoAtrasados(request):
 	proyectos = Proyecto.objects.filter(fecha_fin_estimada__lt=date.today())
 	return render_to_response('lista_proyectos.html',{'cont':3,'proyectos':proyectos}, context_instance=RequestContext(request))
+
+def tareasResueltas(request):
+	tareas = Tarea.objects.filter(estado_tarea="Resuelto")
+
+	return HttpResponse(serializers.serialize("json",tareas),mimetype="aplication/json")	
 
