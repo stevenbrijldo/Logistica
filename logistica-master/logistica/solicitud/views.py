@@ -23,6 +23,8 @@ def agregarSolicitud(request):
 		estado = request.POST['estado']
 		fecha = request.POST['fecha']
 		solicitud = Solicitud.objects.create(cliente=cliente,descripcion=descripcion,estado=estado,fecha=fecha)
+		#Actividad.objects.create(codigo_proyecto=0 ,nombre=descripcion,costo=0,encargado=encargado,fecha_inicio=fecha_inicio,
+		#fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
 		solicitud=Solicitud.objects.all()
 		return render_to_response('solicitud.html',{'cont':3,'solicitudes':Solicitud.objects.all()}, context_instance=RequestContext(request))
 	else:

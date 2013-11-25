@@ -30,7 +30,8 @@ urlpatterns = patterns('',
     url(r'^obtener_solicitud/$','solicitud.views.obtenerSolicitud', name='obtener_solicitud'),
 
     url(r'^agregar_mensaje/$','mensajes.views.agregarMensaje', name='agregar_mensaje'),
-    url(r'^obtener_mensaje/$','mensajes.views.obtenerMensaje', name='obtener_mensaje'),                   
+    url(r'^obtener_mensaje/$','mensajes.views.obtenerMensaje', name='obtener_mensaje'),
+    url(r'^hola_mundo/$','mensajes.views.holaMundo', name='hola_mundo'),                  
 
 
     url(r'^carga_proyecto/$','carga_trabajo.views.agregarProyecto', name='agregar_proyecto'),
