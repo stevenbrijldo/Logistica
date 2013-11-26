@@ -1,0 +1,368 @@
+    {% extends 'rh_base.html' %}
+    {% block js %}
+
+
+    {% block css %}
+<style type="text/css">
+    #opcionesAgregar, #panelBuscar, #panelAgregarActividad {
+       display: none;
+    }
+ button{
+        color: #ffffff;
+background-color: #E56814;
+border-color: #E27800;
+cursor: pointer;
+border: 1px solid transparent;
+padding: 5px 10px;
+font-size: 12px;
+line-height: 1.5;
+border-radius: 3px;
+    }
+     button:hover{
+        color: #ffffff;
+  background-color: #E27800;
+  border-color: #E56814;
+    }
+
+    .opcionBuscar{
+        cursor: pointer;
+    }
+
+    .datoLista{
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+    {% endblock %}
+
+    {% block contenido %}
+    <h1>Actividad</h1>
+     
+    <div id="opcionesLista" class="btn-group">
+        <label  id="agregar" class="btn btn-success btn-sm">
+            <i class="fa fa-plus"></i> Agregar Actividad
+        </label>
+                                     
+        
+        
+    </div>
+    
+    <div id="opcionesAgregar" class="btn-group">
+        
+        <label  id="cancelar"  class="btn btn-success btn-sm">
+            <i class="fa fa-arrow-left"></i> Atras
+        </label>
+    </div>
+
+   
+
+
+    <div id="mensaje">
+
+
+    </div>
+
+
+
+    <div id="panelAgregarActividad">
+        <form  id="agregarForm" action="{%  url 'carga_actividad_solicitud' %}" role="form"  method='POST'>
+          {% csrf_token %}
+          <legend id="tituloForm" value="" name="id" >Crear Actividad</legend>
+
+          <div class="row">                 
+            <div class="form-group col-lg-6">
+                <label for="">Nombre Actividad</label>
+                <input type="text" name="nombre" class="form-control" id="nombre_actividad"  placeholder="Nombre Actividad" required>
+
+            </div>
+            <div class="form-group col-lg-6">
+                <label for="">Encargado</label>
+                <input type="text" name="encargado" class="form-control" id="encargado" placeholder="Encargado" required>
+            </div>
+        </div>
+           
+        <div class="row">  
+            <div class="form-group col-lg-6">
+               <label for="">Fecha de Inicio</label>
+               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
+             </div>
+
+            <div class="form-group col-lg-6">
+                <label for="">Fecha Final</label>
+                <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_estimada" id="fecha2" class="form-control"  required="required" title="">
+            </div> 
+        </div>
+          
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="">Fecha Final Real</label>
+                <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
+            </div> 
+            <div class="form-group col-lg-6" id="modificar" >
+                <label for="">Tipo Actividad</label>
+                <select name="tipo_actividad" id="tipo_actividad" class="form-control">
+                    
+                    <option  value="Administrativo">Administrativa</option>
+                    <option  value="Solicitud"Atencion>Atencion</option>
+                    <option  value="Otro">Otro</option>
+                   
+                </select>
+            </div>
+        </div>
+             
+        <div class="row">   
+            <div class="form-group col-lg-6" id="modificar" >
+                <label for="">Estado Actividad</label>
+                <select name="estado" id="estado" class="form-control">
+                    
+                    <option  value="Activo">Activo</option>
+                    <option  value="Inactivo">Inactivo</option>
+                     
+                </select>
+            </div>    
+        </div>
+      
+
+     
+        <div class="row">
+            <div class="col-lg-2">
+            <button class" btn btn-success btn-sm" id="codigo" name="codigo" value="{{proyecto}}">Guardar Actividad</button>
+                <!--<label  id="enviar" class="btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Guardar
+                </label>-->
+                
+            </div>
+
+        </div>
+ </form>
+</div>
+
+
+
+<table id="listaActividad" class="table table-striped table-hover" value="1">
+
+    <thead>
+        <tr>
+                <th></th>
+                <th>Codigo</th>
+                <th>Nombre Actividad</th>  
+                <th>Encargado</th> 
+            
+                <th>Fecha Inicio</th>
+                <th>Fecha Final</th>
+                <th>Fecha Final Real</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th></th>
+                
+        </tr>
+        <tr>
+                <th></th>
+                <th></th>
+                <th class="buscarNombre" id="1"><input type="text" name="Nombre Actividad" class="form-control" id="nombre_actividad" value="" placeholder="Nombre Actividad" autocomplete="off" required></th>    
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                
+        </tr>
+        
+    </thead>
+     <tbody class="tabla" id="tabla" value="{{cont}}">
+          
+
+        
+         {% for actividad in actividades %}
+            {% if actividad.estado == "Inactivo" %} 
+            <tr class="datoLista activo alert-danger" style"cursor: pointer;" id="{{actividad.codigo}}">
+            {% else %}
+            <tr class="datoLista activo" style"cursor: pointer;" id="{{actividad.codigo}}">
+            {% endif %}
+        
+          
+            <td id="{{actividad.codigo}}">{{actividad.codigo}}</td>
+            <td id="{{actividad.nombre}}">{{actividad.nombre}}</td>
+            <td id="{{actividad.encargado}}">{{actividad.encargado}}</td>
+           
+            <td id="{{actividad.fecha_inicio|date:'Y-m-d'}}">{{actividad.fecha_inicio|date:"Y-m-d"}}</td>
+            <td id="{{actividad.fecha_fin_estimada|date:'Y-m-d'}}">{{actividad.fecha_fin_estimada|date:"Y-m-d"}}</td>
+            <td id="{{actividad.fecha_fin_real|date:'Y-m-d'}}">{{actividad.fecha_fin_real|date:"Y-m-d"}}</td>
+            <td id="{{actividad.tipo_actividad}}">{{actividad.tipo_actividad}}</td>
+            <td id="{{actividad.estado}}">{{actividad.estado}}</td>
+            <td><label  id="" class="enviarTarea btn btn-success btn-sm">
+                <i class="fa fa-save"></i> Tareas
+               
+                </label></td>
+        </tr> 
+        {% endfor%}
+       
+       
+          
+        
+    </tbody>
+</table>
+
+<center id="paginacionDiv">
+    <ul class="pagination" value="{{pag}}">
+      <li class="paginacionLi" value="-1"><a style="cursor: pointer;">&laquo;</a></li>
+       
+      <li class="paginacionLi" value="-2"><a style="cursor: pointer;">&raquo;</a></li>
+  </ul>
+</center>
+
+
+<script type="text/javascript" >
+
+    $(document).ready(function  () {
+                function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            crossDomain: false, // obviates need for sameOrigin test
+            beforeSend: function(xhr, settings) {
+                var csrftoken = getCookie('csrftoken');
+                if (!csrfSafeMethod(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+      
+        $("#listaActividad").css("display","table");
+    });
+    
+
+    var dato1="";
+    var dato2="";
+    var dato3="";
+
+    function agregarForm(){
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarActividad").css("display","block");
+        $("#panelBuscar").css("display","none");
+        $("#listaActividad").val(1);
+        $("#paginacionDiv").css("display","none");
+
+
+    }
+
+    function agregarLista(){
+        $("#lista").css("display","table");
+            $("#opcionesLista").css("display","inline-block");
+            $("#opcionesAgregar").css("display","none");
+            $("#listaActividad").css("display","table");
+            $('#mensaje').css("display","none");
+            $("#panelAgregar").css("display","none");
+            $("#panelBuscar").css("display","none");
+            $("#listaActividad").val(1);
+            $("#paginacionDiv").css("display","block");
+    }
+
+     
+
+
+
+    $("#agregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","none");
+        $("#opcionesAgregar").css("display","inline-block");
+        $("#panelAgregarActividad").css("display","block");
+
+        //agregarForm();
+
+    });
+    $("#opcionesAgregar").click(function() {
+        //$("#tituloForm").text("Crear Oferta de Empleo");
+        //$("#agregarForm")[0].reset();
+        //$("#modificar").css("display","none");
+        $("#opcionesLista").css("display","inline-block");
+        $("#opcionesAgregar").css("display","none");
+        $("#panelAgregarActividad").css("display","none");
+
+        //agregarForm();
+
+    });
+
+    $("#cancelar").click(function() {
+     
+        agregarLista();
+
+    });
+
+
+
+        $(".buscarNombre").keyup(function  () {
+            dato1=$(this).children().val();
+            $(".pagination").val(1);
+           
+        });
+
+        $(".buscar").change(function  () {
+            if($(this).attr("id")==2){
+                dato2=$(this).children().val();
+                console.log("dato2");
+            }else
+                if($(this).attr("id")==3)
+                    dato3=$(this).children().val(); 
+            $(".pagination").val(1);
+            
+        });
+
+        $(".enviarTarea").click(function (){ 
+           alert($(this).parent().parent().children().attr('id'));
+            location.href="{% url 'tarea' %}?ID="+$(this).parent().parent().children().attr('id'); 
+        });
+
+         $(".datoLista").click(function () {
+            
+               if($(this).hasClass("activo")){
+                    agregarForm();
+                    $("#modificar").css("display","inline-block");
+                    $("#tituloForm").text("Modificar Actividad");
+                    $("#agregarForm").attr('action',"{% url 'modificar_actividad' %}");
+                    var info= new Array();
+
+                    $(this).find('td').each(function (index) {
+                    info[index]=$(this).attr("id");
+                });
+
+                console.log($(this).attr("id"));
+                $("#codigo").val($(this).attr("id")); 
+                $("#nombre_actividad").val(info[2]);
+                $("#encargado").val(info[3]);
+              
+                $("#fecha1").val(info[4]);
+                $("#fecha2").val(info[5]);
+                $("#fecha3").val(info[6]);
+                $("#tipo_actividad").val(info[7]);
+                $("#estado").val(info[8]);
+
+                }
+           });
+
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+
+    {% endblock %}

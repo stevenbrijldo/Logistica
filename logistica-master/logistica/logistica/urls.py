@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^buscar_solicitud/$','solicitud.views.buscarSolicitud', name='buscar_solicitud'),
     url(r'^obtener_solicitud/$','solicitud.views.obtenerSolicitud', name='obtener_solicitud'),
 
+
     url(r'^agregar_mensaje/$','mensajes.views.agregarMensaje', name='agregar_mensaje'),
     url(r'^obtener_mensaje/$','mensajes.views.obtenerMensaje', name='obtener_mensaje'),
     url(r'^hola_mundo/$','mensajes.views.holaMundo', name='hola_mundo'),                  
@@ -40,6 +41,7 @@ urlpatterns = patterns('',
     url(r'^proyecto_atrasado/$','carga_trabajo.views.proyectoAtrasados', name='proyecto_atrasado'),
    
     url(r'^carga_actividad/$','carga_trabajo.views.agregarActividad', name='agregar_actividad'),
+    url(r'^carga_actividad_solicitud/$','carga_trabajo.views.agregarActividadSolicitud', name='carga_actividad_solicitud'),
     url(r'^modificar_actividad/$','carga_trabajo.views.modificarActividad', name='modificar_actividad'),
 
     url(r'^carga_tarea/$','carga_trabajo.views.agregarTarea', name='agregar_tarea'),

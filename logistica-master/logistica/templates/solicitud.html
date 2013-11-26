@@ -205,7 +205,7 @@ border-radius: 3px;
 
     $(".enviarActividadSol").click(function (){ 
            
-            location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
+            location.href="{% url 'solicitud' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
 
     $(".paginacionLi").click(function (){

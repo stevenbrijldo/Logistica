@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from datetime import *
+from solicitud.models import Solicitud
 
 #Vistas de Compras
 
@@ -67,11 +68,15 @@ def agregarActividadSolicitud(request):
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
 		actividad.save()
 		actividad=Actividad.objects.filter(codigo_solicitud=ids)
-		return render_to_response('lista_actividad.html',{'actividades':actividad,'solicitud':ids}, context_instance=RequestContext(request))
+		return render_to_response('lista_actividad2.html',{'actividades':actividad,'solicitud':ids}, context_instance=RequestContext(request))
 	else:
 		actividad=Actividad.objects.all()
-		return render_to_response('lista_actividad.html',{'actividades':actividad}, context_instance=RequestContext(request))
+		return render_to_response('lista_actividad2.html',{'actividades':actividad}, context_instance=RequestContext(request))
 
+def solicitud(request):
+	actividadsolicitud = request.GET['ID']
+	actividad=Actividad.objects.filter(codigo_solicitud=actividadsolicitud)
+	return render_to_response ('lista_actividad2.html',{'cont':3,'solicitud':actividadsolicitud,'actividades':actividad}, context_instance=RequestContext(request))
 
 
 def actividad(request):
