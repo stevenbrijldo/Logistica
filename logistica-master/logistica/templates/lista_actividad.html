@@ -70,8 +70,7 @@ border-radius: 3px;
           {% csrf_token %}
           <legend id="tituloForm" value="" name="id" >Crear Actividad</legend>
 
-          <div class="row">  
-                
+          <div class="row">                 
             <div class="form-group col-lg-6">
                 <label for="">Nombre Actividad</label>
                 <input type="text" name="nombre" class="form-control" id="nombre_actividad"  placeholder="Nombre Actividad" required>
@@ -80,31 +79,29 @@ border-radius: 3px;
             <div class="form-group col-lg-6">
                 <label for="">Encargado</label>
                 <input type="text" name="encargado" class="form-control" id="encargado" placeholder="Encargado" required>
-
             </div>
+        </div>
            
-            <div class="row">  
-                
-            </div>
-          
-        <div class="row">           
+        <div class="row">  
             <div class="form-group col-lg-6">
                <label for="">Fecha de Inicio</label>
                <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
-           </div>
+             </div>
 
             <div class="form-group col-lg-6">
-             <label for="">Fecha Final</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_estimada" id="fecha2" class="form-control"  required="required" title="">
-            </div>    
-
-             <div class="form-group col-lg-6">
-             <label for="">Fecha Final Real</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
+                <label for="">Fecha Final</label>
+                <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_estimada" id="fecha2" class="form-control"  required="required" title="">
+            </div> 
+        </div>
+          
+        <div class="row">
+            <div class="form-group col-lg-6">
+                <label for="">Fecha Final Real</label>
+                <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
             </div> 
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Tipo Actividad</label>
-            <select name="tipo_actividad" id="tipo_actividad" class="form-control">
+                <select name="tipo_actividad" id="tipo_actividad" class="form-control">
                     
                     <option  value="Administrativo">Administrativa</option>
                     <option  value="Solicitud"Atencion>Atencion</option>
@@ -112,21 +109,23 @@ border-radius: 3px;
                    
                 </select>
             </div>
+        </div>
+             
+        <div class="row">   
             <div class="form-group col-lg-6" id="modificar" >
                 <label for="">Estado Actividad</label>
-            <select name="estado" id="estado" class="form-control">
+                <select name="estado" id="estado" class="form-control">
                     
                     <option  value="Activo">Activo</option>
                     <option  value="Inactivo">Inactivo</option>
                      
                 </select>
             </div>    
-            
         </div>
       
 
-     </div>
-     <div class="row">
+     
+        <div class="row">
             <div class="col-lg-2">
             <button class" btn btn-success btn-sm" id="codigo" name="codigo" value="{{proyecto}}">Guardar Actividad</button>
                 <!--<label  id="enviar" class="btn btn-success btn-sm">
