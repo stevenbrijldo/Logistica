@@ -6,11 +6,11 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from datetime import *
-<<<<<<< HEAD
+
 from django.core import serializers
-=======
+
 from solicitud.models import Solicitud
->>>>>>> 07c5f599b1fadfd462e245ac99bf88fe67b46910
+
 
 #Vistas de Compras
 
