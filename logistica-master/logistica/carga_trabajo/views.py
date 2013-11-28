@@ -137,7 +137,6 @@ def modificarActividad(request):
 		codigo = request.POST['codigo']
 		nombre_actividad = request.POST['nombre']
 		encargado = request.POST['encargado']
-		costo = request.POST['costo']
 		fecha_inicio = request.POST['fecha_inicio']
 		fecha_fin_estimada = request.POST['fecha_fin_estimada']
 		fecha_fin_real = request.POST['fecha_fin_real']
@@ -146,7 +145,6 @@ def modificarActividad(request):
 	 	actividad = Actividad.objects.get(pk=codigo)
 		actividad.nombre=nombre_actividad
 		actividad.encargado=encargado
-		actividad.costo=costo
 		actividad.fecha_inicio=fecha_inicio
 		actividad.fecha_fin_estimada=fecha_fin_estimada
 		actividad.fecha_fin_real=fecha_fin_real
@@ -196,7 +194,7 @@ def buscarProyecto(request):
 
 def proyectoAtrasados(request):
 	proyectos = Proyecto.objects.filter(fecha_fin_estimada__lt=date.today())
-	return render_to_response('lista_proyectos.html',{'cont':3,'proyectos':proyectos}, context_instance=RequestContext(request))
+	return render_to_response('alertas.html',{'cont':3,'proyectos':proyectos}, context_instance=RequestContext(request))
 
 def tareasResueltas(request):
 	tareas = Tarea.objects.filter(estado_tarea="Resuelto")

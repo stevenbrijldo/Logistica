@@ -103,9 +103,7 @@ transition: width 0.6s ease;
 
             </div>
            
-            <div class="row">  
-                
-            </div>
+         
           
         <div class="row">           
             <div class="form-group col-lg-6">
@@ -165,11 +163,9 @@ transition: width 0.6s ease;
 
     <thead>
         <tr>
-                <th></th>
                 <th>Codigo</th>
                 <th>Nombre Actividad</th>  
                 <th>Encargado</th> 
-            
                 <th>Fecha Inicio</th>
                 <th>Fecha Final</th>
                 <th>Fecha Final Real</th>
@@ -180,9 +176,7 @@ transition: width 0.6s ease;
         </tr>
         <tr>
                 <th></th>
-                <th></th>
                 <th class="buscarNombre" id="1"><input type="text" name="Nombre Actividad" class="form-control" id="nombre_actividad" value="" placeholder="Nombre Actividad" autocomplete="off" required></th>    
-                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -375,14 +369,13 @@ transition: width 0.6s ease;
 
                 console.log($(this).attr("id"));
                 $("#codigo").val($(this).attr("id")); 
-                $("#nombre_actividad").val(info[2]);
-                $("#encargado").val(info[3]);
-              
-                $("#fecha1").val(info[4]);
-                $("#fecha2").val(info[5]);
-                $("#fecha3").val(info[6]);
-                $("#tipo_actividad").val(info[7]);
-                $("#estado").val(info[8]);
+                $("#nombre_actividad").val(info[1]);
+                $("#encargado").val(info[2]);
+                $("#fecha1").val(info[3]);
+                $("#fecha2").val(info[4]);
+                $("#fecha3").val(info[5]);
+                $("#tipo_actividad").val(info[6]);
+                $("#estado").val(info[7]);
 
                 }
            });
