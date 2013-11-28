@@ -1,10 +1,10 @@
-    {% extends 'rh_base.html' %}
+ {% extends 'rh_base.html' %}
     {% block js %}
 
 
     {% block css %}
 <style type="text/css">
-    #opcionesAgregar, #panelBuscar, #panelAgregarProyecto{
+    #opcionesAgregar{
        display: none;
     }
      button{
@@ -40,23 +40,9 @@ border-radius: 3px;
     {% endblock %}
 
     {% block contenido %}
-    <h1>Proyectos</h1>
+    <h1>Proyectos Atrasados</h1>
      
-    <div id="opcionesLista" class="btn-group">
-        <label  id="agregar" class="btn btn-success btn-sm">
-            <i class="fa fa-plus"></i> Agregar Proyecto
-        </label>
-                                     
-    </div>
     
-    <div id="opcionesAgregar" class="btn-group">
-        
-        <label  id="cancelar"  class="btn btn-success btn-sm">
-            <i class="fa fa-arrow-left"></i> Atras
-        </label>
-    </div>
-
-   
 
 
     <div id="mensaje">
@@ -66,74 +52,7 @@ border-radius: 3px;
 
 
 
-    <div id="panelAgregarProyecto">
-        <form  id="agregarForm" action="{%  url 'agregar_proyecto' %}" role="form" method='POST'>
-          {% csrf_token %}
-          <legend id="tituloForm" value="" name="id" >Crear Proyecto</legend>
-
-          <div class="row">  
-                 
-            <div class="form-group col-lg-6">
-                <label for="">Nombre Proyecto</label>
-                <input type="text" name="nombre" class="form-control" id="nombre_proyecto"  placeholder="Nombre Proyecto" required>
-
-            </div>
-            <div class="form-group col-lg-6">
-                <label for="">Encargado</label>
-                <input type="text" name="encargado" class="form-control" id="encargado" placeholder="Encargado" required>
-
-            </div>
-           
-            <div class="row">  
-            
-                 <div class="form-group col-lg-6">
-                    <label for="">Objetivo</label>
-                    <textarea  name="objetivo" class="form-control" id="objetivo" maxlength="350" placeholder="Objetivo del Proyecto" required></textarea>
-                </div>
-            </div>
-          
-        <div class="row">           
-            <div class="form-group col-lg-6">
-               <label for="">Fecha de Inicio</label>
-               <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
-           </div>
-
-            <div class="form-group col-lg-6">
-             <label for="">Fecha Final</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_estimada" id="fecha2" class="form-control"  required="required" title="">
-            </div>    
-
-             <div class="form-group col-lg-6">
-             <label for="">Fecha Final Real</label>
-             <input type="date" data-format="yyyy-MM-dd" name="fecha_fin_real" id="fecha3" class="form-control"  required="required" title="">
-            </div> 
-            <div class="form-group col-lg-6" id="modificar" >
-                <label for="">Estado</label>
-            <select name="estado" id="estado" class="form-control">
-                    
-                    <option  value="En Ejecucion">En Ejecucion</option>
-                    <option  value="Cancelado">Cancelado</option>
-                    <option  value="Terminado">Terminado</option>
-                   
-                </select>
-            </div>    
-            
-        </div>
-      
-
-     </div>
-     <div class="row">
-            <div class="col-lg-2">
-            <button class" btn btn-success btn-sm" id="enviar" name="codigo">Guardar Proyecto</button>
-                <!--<label  id="enviar" class="btn btn-success btn-sm">
-                <i class="fa fa-save"></i> Guardar
-                </label>-->
-                
-            </div>
-
-        </div>
- </form>
-</div>
+    
 
 
 
@@ -143,27 +62,13 @@ border-radius: 3px;
         <tr>
                 <th>Codigo</th> 
                 <th>Nombre Proyecto</th>  
-                <th>Encargado</th> 
-                <th>Objetivo</th>   
+                <th>Encargado</th>  
                 <th>Fecha Inicio</th>
                 <th>Fecha Final</th>
-                <th>Fecha Final Real</th>
-                <th>Estado</th>
                 <th></th>
                 
         </tr>
-        <tr>
-                
-                <th></th>
-                <th class="buscarNombre" id="1"><input type="text" name="Nombre Proyecto" class="form-control" id="nombre_proyecto" placeholder="Nombre Proyecto" autocomplete="off" rnkeyup="busqueda()"></th> 
-                <th></th>
-                <th></th>
-                <th></th>
-                <th> </th>
-                <th></th>
-                <th></th>
-                
-        </tr>
+  
         
     </thead>
      <tbody class="tabla" id="tabla" value="{{cont}}">
@@ -180,11 +85,8 @@ border-radius: 3px;
             <td id="{{proyecto.codigo}}">{{proyecto.codigo}}</td>
             <td id="{{proyecto.nombre}}">{{proyecto.nombre}}</td>
             <td id="{{proyecto.encargado}}">{{proyecto.encargado}}</td>
-            <td id="{{proyecto.objetivo}}">{{proyecto.objetivo}}</td>
             <td id="{{proyecto.fecha_inicio|date:'Y-m-d'}}">{{proyecto.fecha_inicio|date:"Y-m-d"}}</td>
             <td id="{{proyecto.fecha_fin_estimada|date:'Y-m-d'}}">{{proyecto.fecha_fin_estimada|date:"Y-m-d"}}</td>
-            <td id="{{proyecto.fecha_fin_real|date:'Y-m-d'}}">{{proyecto.fecha_fin_real|date:"Y-m-d"}}</td>
-            <td id="{{proyecto.estado}}">{{proyecto.estado}}</td>
             <td><label  id="" class="enviarActividad btn btn-success btn-sm">
                 <i class="fa fa-plus"></i> Actividades
                 
@@ -318,8 +220,7 @@ border-radius: 3px;
             $(".pagination").val(1);
             
         });
-
-
+        
         $(".enviarActividad").click(function (){ 
            
             location.href="{% url 'actividad' %}?ID="+$(this).parent().parent().children().attr('id'); 
@@ -340,12 +241,8 @@ border-radius: 3px;
                 $("#enviar").val($(this).attr("id"));
                 $("#nombre_proyecto").val(info[1]);
                 $("#encargado").val(info[2]);
-                $("#objetivo").val(info[3]);
-                $("#fecha1").val(info[4]);
-                $("#fecha2").val(info[5]);
-                $("#fecha3").val(info[6]);
-                $("#estado").val(info[7]);
-
+                $("#fecha1").val(info[3]);
+                $("#fecha2").val(info[4]);
                 }
            });
 

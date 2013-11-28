@@ -39,10 +39,12 @@ urlpatterns = patterns('',
     url(r'^modificar_proyecto/$','carga_trabajo.views.modificarProyecto', name='modificar_proyecto'),
     url(r'^buscar_proyecto/$','carga_trabajo.views.buscarProyecto', name='buscar_proyecto'),
     url(r'^proyecto_atrasado/$','carga_trabajo.views.proyectoAtrasados', name='proyecto_atrasado'),
+
    
     url(r'^carga_actividad/$','carga_trabajo.views.agregarActividad', name='agregar_actividad'),
     url(r'^carga_actividad_solicitud/$','carga_trabajo.views.agregarActividadSolicitud', name='carga_actividad_solicitud'),
     url(r'^modificar_actividad/$','carga_trabajo.views.modificarActividad', name='modificar_actividad'),
+    url(r'^tareas_resueltas/$','carga_trabajo.views.tareasResueltas', name='tareas_resueltas'),
 
     url(r'^carga_tarea/$','carga_trabajo.views.agregarTarea', name='agregar_tarea'),
     url(r'^modificar_tarea/$','carga_trabajo.views.modificarTarea', name='modificar_tarea'),
