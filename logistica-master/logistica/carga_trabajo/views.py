@@ -63,7 +63,8 @@ def agregarActividadSolicitud(request):
 	 	tipo_actividad= request.POST['tipo_actividad']
 	 	estado= request.POST['estado']
 	 	ids=request.POST['codigo']
-	 	solicitud=Solicitud.objects.get(codigo=ids) 
+	 	print request.POST
+	 	solicitud=Solicitud.objects.get(codigo=int(ids)) 
 		actividad = Actividad.objects.create(codigo_solicitud=solicitud ,nombre=nombre_actividad,encargado=encargado,fecha_inicio=fecha_inicio,
 		fecha_fin_estimada=fecha_fin_estimada,fecha_fin_real=fecha_fin_real,tipo_actividad=tipo_actividad,estado=estado)
 		actividad.save()
