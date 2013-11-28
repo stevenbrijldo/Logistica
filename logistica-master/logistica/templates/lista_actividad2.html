@@ -31,26 +31,6 @@ border-radius: 3px;
     .datoLista{
         cursor: pointer;
     }
-
-    .progress-bar {
-background: #1abc9c;
--webkit-box-shadow: none;
-box-shadow: none;
-}
-.progress-bar {
-float: left;
-width: 0;
-height: 100%;
-font-size: 12px;
-line-height: 20px;
-color: #ffffff;
-text-align: center;
-background-color: #549816;
--webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
--webkit-transition: width 0.6s ease;
-transition: width 0.6s ease;
-}
 </style>
 {% endblock %}
 
@@ -86,7 +66,7 @@ transition: width 0.6s ease;
 
 
     <div id="panelAgregarActividad">
-        <form  id="agregarForm" action="{%  url 'agregar_actividad' %}" role="form"  method='POST'>
+        <form  id="agregarForm" action="{%  url 'carga_actividad_solicitud' %}" role="form"  method='POST'>
           {% csrf_token %}
           <legend id="tituloForm" value="" name="id" >Crear Actividad</legend>
 
@@ -102,13 +82,7 @@ transition: width 0.6s ease;
             </div>
         </div>
            
-<<<<<<< HEAD
-         
-          
-        <div class="row">           
-=======
         <div class="row">  
->>>>>>> 07c5f599b1fadfd462e245ac99bf88fe67b46910
             <div class="form-group col-lg-6">
                <label for="">Fecha de Inicio</label>
                <input type="date" data-format="yyyy-MM-dd" name="fecha_inicio" id="fecha1" class="form-control" required="required" title="">
@@ -170,9 +144,11 @@ transition: width 0.6s ease;
 
     <thead>
         <tr>
+                <th></th>
                 <th>Codigo</th>
                 <th>Nombre Actividad</th>  
                 <th>Encargado</th> 
+            
                 <th>Fecha Inicio</th>
                 <th>Fecha Final</th>
                 <th>Fecha Final Real</th>
@@ -183,7 +159,9 @@ transition: width 0.6s ease;
         </tr>
         <tr>
                 <th></th>
+                <th></th>
                 <th class="buscarNombre" id="1"><input type="text" name="Nombre Actividad" class="form-control" id="nombre_actividad" value="" placeholder="Nombre Actividad" autocomplete="off" required></th>    
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -222,10 +200,7 @@ transition: width 0.6s ease;
         </tr> 
         {% endfor%}
        
-       <label for="">Progreso</label>
-          <div class="progress" id="progress">
-                
-        </div> 
+       
           
         
     </tbody>
@@ -256,7 +231,6 @@ transition: width 0.6s ease;
                 }
             }
         });
-        obtener3();
       
         $("#listaActividad").css("display","table");
     });
@@ -275,21 +249,6 @@ transition: width 0.6s ease;
         $("#paginacionDiv").css("display","none");
 
 
-    }
-
-    function obtener3(){
-        $.ajax({   
-            url: "{%  url 'tareas_resueltas' %}",           
-            success: function (data){
-                //$("#nmensajes").attr("value",50);
-                
-                var porcentaje=data.length+"%";
-                var html= "<div class=\"progress-bar\" id=\"nmensajes\" style=\"width:"+porcentaje+";\"> </div>";   
-                $("#progress").html(html);
-                
-                
-            }
-        });
     }
 
     function agregarLista(){
@@ -356,8 +315,8 @@ transition: width 0.6s ease;
             
         });
 
-        $(".enviarTarea").click(function (event){ 
-           event.stopPropagation();
+        $(".enviarTarea").click(function (){ 
+           alert($(this).parent().parent().children().attr('id'));
             location.href="{% url 'tarea' %}?ID="+$(this).parent().parent().children().attr('id'); 
         });
 
@@ -376,13 +335,14 @@ transition: width 0.6s ease;
 
                 console.log($(this).attr("id"));
                 $("#codigo").val($(this).attr("id")); 
-                $("#nombre_actividad").val(info[1]);
-                $("#encargado").val(info[2]);
-                $("#fecha1").val(info[3]);
-                $("#fecha2").val(info[4]);
-                $("#fecha3").val(info[5]);
-                $("#tipo_actividad").val(info[6]);
-                $("#estado").val(info[7]);
+                $("#nombre_actividad").val(info[2]);
+                $("#encargado").val(info[3]);
+              
+                $("#fecha1").val(info[4]);
+                $("#fecha2").val(info[5]);
+                $("#fecha3").val(info[6]);
+                $("#tipo_actividad").val(info[7]);
+                $("#estado").val(info[8]);
 
                 }
            });
@@ -406,4 +366,3 @@ transition: width 0.6s ease;
     </script>
 
     {% endblock %}
-

@@ -119,12 +119,14 @@ border-radius: 3px;
                 <th>Descripcion</th>  
                 <th>Fecha</th>
                 <th>Estado</th>
-                  
+                <th></th>                 
         </tr>
         <tr>
                 <th></th>
                 <th class="buscarSolicitud" id="1"><input type="text" name="Descripcion" class="form-control" id="descripcionBus" placeholder="Descripcion" autocomplete="off" onKeyUp="busqueda()"></th>    
-                <th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha" id="fecha" value="" class="form-control"  required="required" title=""></th>
+                <!--<th class="buscar" id="2"><input type="date" data-format="yyyy-MM-dd" name="Fecha" id="fecha" value="" class="form-control"  required="required" title=""></th>-->
+                <th></th>
+                <th></th>
                 <th></th>
         </tr>
         
@@ -144,7 +146,9 @@ border-radius: 3px;
             <td id=""></td>
             <td id=""></td>
             <td id=""></td>
-            
+            <td><label  id="" class="enviarActividadSol btn btn-success btn-sm">
+                <i class="fa fa-plus"></i> Actividades                
+            </label></td>           
         </tr> 
         {% endfor%}
        
@@ -198,6 +202,11 @@ border-radius: 3px;
         $("#listaSolicitud").val(1);
         $("#paginacionDiv").css("display","none");
     }
+
+    $(".enviarActividadSol").click(function (){ 
+           
+            location.href="{% url 'solicitud' %}?ID="+$(this).parent().parent().children().attr('id'); 
+        });
 
     $(".paginacionLi").click(function (){
         var pag=$(this).val();
